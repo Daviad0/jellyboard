@@ -1,5 +1,5 @@
 runtime: nodejs18
-service: web
+service: default
 handlers:
   # Serve all static files with urls ending with a file extension
 - url: /(.*\..+)$ 

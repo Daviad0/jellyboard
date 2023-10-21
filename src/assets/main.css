@@ -12,6 +12,7 @@ body  {
   top: 0px;
   left: 0px;
   width: 100%;
+  height: 100%;
 }
 
 .join {
@@ -24,6 +25,7 @@ body  {
   font-size: 75px;
   z-index: 3;
   position: relative;
+  margin-top: 5%;
 }
 
 .playerJoin input  {
@@ -40,6 +42,7 @@ body  {
   margin-bottom: 10px;
   z-index: 3;
   position: relative;
+  margin-bottom: 200px;
 }
 
 ::placeholder {
@@ -72,7 +75,7 @@ body  {
 
 .foot {
   position: absolute;
-  top: 235px;
+  bottom: 0px;
   left: 0px;
   width: 100%;
   z-index: 2;
@@ -80,7 +83,7 @@ body  {
 }
 
 .logo {
-  width: 20px;
+  width: 100px;
 
 }
 
