@@ -5,10 +5,12 @@
         <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@500&display=swap" rel="stylesheet">
     </head>
 
-    <body class = "playerJoin">
-
-        <h1>Join A JellyBoard</h1>
-
+    <body>
+        <div class = "playerJoin">
+            <div class = "join">
+                <h1>Join A JellyBoard</h1>
+            </div>
+        </div>
     </body>
 </template>
 <script>
