@@ -9,7 +9,7 @@
         <div class = "playerJoin">
             <div class = "join">
                 <h1>Join A JellyBoard</h1>
-                <input placeholder = "JELLY">
+                <input placeholder = "JELLY" class = "custom-placeholder">
             </div>
         </div>
     </body>

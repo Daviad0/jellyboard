@@ -15,12 +15,15 @@ body  {
 }
 
 .join h1 {
-  margin-bottom: 200px;
+  margin-bottom: 75px;
 }
 
-.playerJoin input {
-  size: 5;
+
+.custom-placeholder {
+  font-family: 'Montserrat Alternates', sans-serif;
+  color: #ba1c8d;
 }
+
 
 
 
