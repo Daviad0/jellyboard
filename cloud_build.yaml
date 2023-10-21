@@ -1,9 +1,10 @@
-//cloud-build.yaml
 steps:
-  name: node
+- name: node:10.15.1
   entrypoint: npm
-  args: ["run"]
-#The .env file is prepared and ready to deploy to Google App Engine
-  name: "jellyboard.tech"
+  args: ["install"]
+- name: node:10.15.1
+  entrypoint: npm
+  args: ["run", "build"]
+- name: "gcr.io/cloud-builders/gcloud"
   args: ["app", "deploy"]
 timeout: "1600s"

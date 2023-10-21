@@ -18,6 +18,10 @@ body  {
   margin-bottom: 200px;
 }
 
+.playerJoin input {
+  size: 5;
+}
+
 
 
 
