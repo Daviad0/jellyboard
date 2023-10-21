@@ -1,7 +1,7 @@
 <template>
     <section id="buttonplace">
-        <button type="button" @click="setDrawingMode(true)">DRAW :0</button>
-        <button type="button" @click="setDrawingMode(false)">ERASE ;_;</button>
+        <button type="button" @click="setColor('red')">DRAW :0</button>
+        <button type="button" @click="setColor('blue')">ERASE ;_;</button>
     </section>
 </template>
 
@@ -12,8 +12,8 @@
                 return {
                     canvas: null,
                     ctx: null,
-                    drawingMode: true,
                     pos: { x: 0, y: 0 },
+                    color: "red",
                 };
             },
             mounted() {
@@ -47,12 +47,8 @@
                     this.ctx.canvas.width = 500;
                     this.ctx.canvas.height = 500;
                 },
-                handleMouse(e) {
-                    if (this.drawingMode) {
-                        this.draw(e);
-                    } else {
-                        this.erase(e);
-                    }
+                setColor(c) {
+                    this.color = c;
                 },
                 draw(e) {
                     if (e.buttons !== 1) return;
@@ -60,31 +56,11 @@
                     this.ctx.beginPath();
                     this.ctx.lineWidth = 5;
                     this.ctx.lineCap = 'round';
-                    this.ctx.strokeStyle = '#c0392b';
+                    this.ctx.strokeStyle = this.color;
                     this.ctx.moveTo(this.pos.x, this.pos.y);
                     this.setPosition(e);
                     this.ctx.lineTo(this.pos.x, this.pos.y);
                     this.ctx.stroke();
-                },
-                erase(e) {
-                    this.ctx.beginPath();
-                    this.ctx.lineWidth = 5;
-                    this.ctx.lineCap = 'round';
-                    this.ctx.strokeStyle = 'white';
-                    this.ctx.moveTo(this.pos.x, this.pos.y);
-                    this.setPosition(e);
-                    this.ctx.lineTo(this.pos.x, this.pos.y);
-                    this.ctx.stroke();
-                },
-                toggleMode(e) {
-                    if (e.key === '1') {
-                        this.setDrawingMode(true);
-                    } else if (e.key === '2') {
-                        this.setDrawingMode(false);
-                    }
-                },
-                setDrawingMode(mode) {
-                    this.drawingMode = mode;
                 },
         },
     };

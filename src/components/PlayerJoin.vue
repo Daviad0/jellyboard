@@ -10,6 +10,7 @@
             <img class = "logo" src = "/src/assets/jellylogo.png"> 
             <div class = "join">
                 <h1 class = "fade-in">Join A JellyBoard</h1>
+                <p class = hidden>Error: Code not found</p>
                 <input placeholder = "JELLY" maxlength="5">
             </div>
 
