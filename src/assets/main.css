@@ -1,0 +1,34 @@
+
+
+body  {
+  font-family: 'Montserrat Alternates', sans-serif;
+}
+
+.playerJoin {
+  color: #ba1c8d;
+  background-color: #eadeda;
+  /* dark mode color: #141423*/
+}
+
+
+
+
+#div {
+  font-family: 'Montserrat Alternates', sans-serif;
+}
+
+#dropdown {
+  font-family: 'Montserrat Alternates', sans-serif;
+}
+
+#question_field input {
+  font-family: 'Montserrat Alternates', sans-serif;
+}
+
+#buttons button {
+  font-family: 'Montserrat Alternates', sans-serif;
+  color: #ba1c8d;
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
