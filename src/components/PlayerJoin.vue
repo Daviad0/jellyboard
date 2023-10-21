@@ -9,6 +9,7 @@
         <div class = "playerJoin">
             <div class = "join">
                 <h1>Join A JellyBoard</h1>
+                <input>
             </div>
         </div>
     </body>

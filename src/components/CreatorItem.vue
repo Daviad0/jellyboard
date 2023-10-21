@@ -13,7 +13,7 @@
             <button type="button">↓</button>
         </section>
         <section id="question_field">
-            <input placeholder="Type in a question :3" type="text"><br>
+            <input placeholder="Type in a question :3 (i'm losing my mind)" type="text"><br>
         </section>
         
     </div>

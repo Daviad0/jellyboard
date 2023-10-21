@@ -14,6 +14,10 @@ body  {
   text-align: center;
 }
 
+.join h1 {
+  margin-bottom: 200px;
+}
+
 
 
 
@@ -48,4 +52,5 @@ body  {
 #buttons {
   align-self: flex-end;
   width: auto;
+  font-family: inherit;
 }
