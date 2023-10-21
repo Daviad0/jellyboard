@@ -16,12 +16,50 @@ body  {
 
 .join h1 {
   margin-bottom: 75px;
+  word-spacing: 20px;
+  font-size: 75px;
 }
 
-
-.custom-placeholder {
+.playerJoin input  {
+  background-color: rgb(179, 176, 176);
+  border-radius: 20px;
+  text-align: center;
+  font-size: 25px;
+  letter-spacing: 5px;
+  width: 150px;
   font-family: 'Montserrat Alternates', sans-serif;
   color: #ba1c8d;
+  text-transform: uppercase;
+  border: solid black;
+  margin-bottom: 10px;
+}
+
+::placeholder {
+  font-family: 'Montserrat Alternates', sans-serif;
+}
+
+.fade-in {
+  animation: left-to-right-fade-in 2s ease-in;
+  -webkit-mask-repeat: no-repeat;
+}
+
+@keyframes left-to-right-fade-in {
+  0% {
+    -webkit-mask-size: 0%;
+    -webkit-mask-image: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 1) 70%,
+      rgba(0, 0, 0, 0)
+    );
+  }
+  100% {
+    -webkit-mask-size: 100%;
+    -webkit-mask-image: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 1) 70%,
+      rgba(0, 0, 0, 0)
+    );
+  }
 }
 
 

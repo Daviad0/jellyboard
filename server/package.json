@@ -1,0 +1,17 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cookie-parser": "^1.4.6",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^7.6.3",
+    "socket.io": "^4.7.2"
+  }
+}

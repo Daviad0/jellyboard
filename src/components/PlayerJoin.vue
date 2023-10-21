@@ -8,11 +8,18 @@
     <body>
         <div class = "playerJoin">
             <div class = "join">
-                <h1>Join A JellyBoard</h1>
-                <input placeholder = "JELLY" class = "custom-placeholder">
+                <h1 class = "fade-in">Join A JellyBoard</h1>
+                <input placeholder = "JELLY" maxlength="5">
             </div>
         </div>
+
+    <footer>
+
+    </footer>
+
     </body>
+
+
 </template>
 <script>
 
