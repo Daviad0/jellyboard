@@ -8,6 +8,10 @@ body  {
   color: #ba1c8d;
   background-color: #eadeda;
   /* dark mode color: #141423*/
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
 }
 
 .join {
@@ -15,9 +19,11 @@ body  {
 }
 
 .join h1 {
-  margin-bottom: 75px;
+  margin-bottom: 100px;
   word-spacing: 20px;
   font-size: 75px;
+  z-index: 3;
+  position: relative;
 }
 
 .playerJoin input  {
@@ -32,6 +38,8 @@ body  {
   text-transform: uppercase;
   border: solid black;
   margin-bottom: 10px;
+  z-index: 3;
+  position: relative;
 }
 
 ::placeholder {
@@ -62,8 +70,18 @@ body  {
   }
 }
 
-.playerJoin footer {
-  background-image: 
+.foot {
+  position: absolute;
+  top: 235px;
+  left: 0px;
+  width: 100%;
+  z-index: 2;
+  background-color: #eadeda;
+}
+
+.logo {
+  width: 20px;
+
 }
 
 
@@ -100,4 +118,10 @@ body  {
   align-self: flex-end;
   width: auto;
   font-family: inherit;
+}
+
+
+#drawingarea {
+  position: absolute;
+  border: 1px solid #000;
 }

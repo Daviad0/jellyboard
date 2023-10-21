@@ -4,7 +4,11 @@ const http = require('http');
 const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server, {
-    path: '/live'
+    path: '/live',
+    cors: {
+        origin: "*",
+        methods: ["GET", "POST"]
+      }
 });
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');

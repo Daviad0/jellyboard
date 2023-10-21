@@ -9,13 +9,6 @@ import CanvasItem from './components/CanvasItem.vue'
 </script>
 
 <template>
-  <div>
-    <PlayerJoin/>
-    <hr/>
-    <CreatorItem/>
-    <hr/>
-    <CanvasItem/>
-    <hr/>
-  </div>
+  <RouterView/>
 </template>
 
