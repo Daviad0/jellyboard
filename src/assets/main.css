@@ -4,7 +4,25 @@ body  {
   font-family: 'Montserrat Alternates', sans-serif;
 }
 
+.jellybg{
+  background-color: #ba1c8d;
+}
+.whitebg{
+  background-color: white;
+}
+
 .playerJoin {
+  color: #ba1c8d;
+  background-color: #eadeda;
+  /* dark mode color: #141423*/
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+}
+
+.login {
   color: #ba1c8d;
   background-color: #eadeda;
   /* dark mode color: #141423*/
@@ -20,7 +38,7 @@ body  {
 }
 
 .join h1 {
-  margin-bottom: 100px;
+  margin-bottom: 50px;
   word-spacing: 20px;
   font-size: 75px;
   z-index: 3;
@@ -39,10 +57,24 @@ body  {
   color: #ba1c8d;
   text-transform: uppercase;
   border: solid black;
-  z-index: 3;
+  z-index: 4;
   position: relative;
-  margin-bottom: 200px;
-  margin-top: 20px;
+}
+
+.login input  {
+  background-color: rgb(179, 176, 176);
+  border-radius: 20px;
+  text-align: center;
+  font-size: 35px;
+  width: 100%;
+  max-width: 400px;
+  font-family: 'Montserrat Alternates', sans-serif;
+  color: #ba1c8d;
+  border: solid black;
+  z-index: 4;
+  position: relative;
+  display: block;
+  margin:10px
 }
 
 ::placeholder {
@@ -86,11 +118,35 @@ body  {
   width: 100px;
 }
 
-.hidden {
-  /* display: none; */
-  z-index: 3;
-  display: relative;
+.hidden-parent {
+  position: relative;
+  text-align: center;
 }
+
+.hidden {
+  display: none;
+  z-index: 4;
+  position: absolute;
+  width: 100%;
+  animation: shake 1s ease-in-out;
+}
+
+.login a{
+  position: absolute;
+  bottom: 20px;
+  color: #eadeda;
+  z-index: 3;
+  text-align: center;
+  width: 100%;
+  font-size: 20px;
+}
+
+.login a:hover {
+  color: #b8afab;
+}
+
+
+
 
 
 
@@ -129,7 +185,27 @@ body  {
 }
 
 
-#drawingarea {
-  position: absolute;
-  border: 1px solid #000;
+.center-align{
+  display:flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.transition{
+  transition: all 0.5s ease-in-out;
+}
+
+.bottomMenu{
+  position:absolute;
+  bottom:0;
+  width:50%;
+  border-radius: 16px 16px 0px 0px;
+  padding:10px;
+}
+
+.itemOption{
+  padding:15px;
+  border-radius: 16px;
+  margin:10px;
+  cursor: pointer;
 }

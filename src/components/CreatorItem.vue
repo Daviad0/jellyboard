@@ -1,10 +1,11 @@
 <template>
     <div id="box">
         <section>        
-            <select name="type" id="dropdown">
+            <select name="type" id="dropdown" :value="type">
                 <option value="multiple_choice">Poll / Multiple Choice</option>
                 <option value="multiple_select">Multiple Select</option>
                 <option value="short_answer">Short Answer</option>
+                <option value="drawing">Drawing</option>
             </select>
         </section>
         <section id="buttons">
@@ -19,5 +20,12 @@
     </div>
 </template>
 <script>
+    export default {
+        name: "CreatorItem",
+        props: {
+            type: String,
+            title: String
+        }
+    }
 
 </script>

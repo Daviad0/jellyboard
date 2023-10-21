@@ -1,8 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import PlayerView from '../views/PlayerView.vue'
+import CreatorView from '../views/CreatorView.vue'
+import AccountView from '../views/AccountView.vue'
 import CanvasItem from '../components/CanvasItem.vue'
-import CreatorItem from '../components/CreatorItem.vue'
+import SubmitAnswerItem from '../components/SubmitAnswerItem.vue'
+import MultipleChoiceItem from '../components/MultipleChoiceItem.vue'
+import SlideshowViewer from '../components/SlideshowViewer.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -13,6 +17,16 @@ const router = createRouter({
       component: PlayerView
     },
     {
+      path: '/creator',
+      name: 'creator',
+      component: CreatorView
+    },
+    {
+      path: '/account',
+      name: 'account',
+      component: AccountView
+    },
+    {
       path: '/canvas',
       name: 'about',
       // route level code-splitting
@@ -21,10 +35,22 @@ const router = createRouter({
       component: CanvasItem
     },
     {
-      path: '/creatoritem',
-      name: 'creatoritem',
+      path: '/submitanswer',
+      name: 'submitanswer',
 
-      component: CreatorItem
+      component: SubmitAnswerItem
+    },
+    {
+      path: '/multiplechoice',
+      name: 'multiplechoice',
+
+      component: MultipleChoiceItem
+    },
+    {
+      path: '/slideshow',
+      name: 'slideshow',
+
+      component: SlideshowViewer
     },
   ]
 })

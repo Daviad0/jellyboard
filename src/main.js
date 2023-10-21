@@ -3,6 +3,7 @@ import './assets/main.css'
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
+import VueSocketIO from 'vue-3-socket.io'
 // import socketio from 'socket.io-client';
 // import VueSocketIO from 'vue-socket.io';
 
@@ -10,7 +11,16 @@ import router from './router'
 
 const app = createApp(App)
 
-// app.use(VueSocketIO, SocketInstance)
+app.use(new VueSocketIO({
+    debug: true,
+    connection: 'http://localhost:3000',
+    options: { path: "/live" }
+}));
+
+// app.use(new VueSocketIO({
+//     connection: 'http://localhost:3000',
+//     withCredentials: false
+// }));
 
 app.use(router)
 

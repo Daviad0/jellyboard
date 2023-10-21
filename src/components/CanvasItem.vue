@@ -1,17 +1,22 @@
 <template>
-    <section id="buttonplace">
-        <button type="button" @click="setColor('red')">DRAW :0</button>
-        <button type="button" @click="setColor('blue')">ERASE ;_;</button>
-    </section>
+  <div class="color-picker">
+    <button class="color-button" id="red" @click="setColor('red')">red</button>
+    <button class="color-button" id="blue" @click="setColor('blue')">blue</button>
+    <button class="color-button" id="green" @click="setColor('green')">green</button>
+    <button class="color-button" id="yellow" @click="setColor('yellow')">yellow</button>
+    <button class="draw-button" id="draw" @click="setDrawingMode(true)">draw</button>
+    <button class="erase-button" id="erase" @click="setDrawingMode(false)">erase</button>
+  </div>
 </template>
+
 
 <script>
     export default {
-            
             data() {
                 return {
                     canvas: null,
                     ctx: null,
+                    drawingMode: true,
                     pos: { x: 0, y: 0 },
                     color: "red",
                 };
@@ -21,9 +26,6 @@
                 this.canvas = document.createElement('canvas');
                 this.canvas.id = "drawingarea";
                 this.$el.appendChild(this.canvas);
-        
-                // some hotfixes... ( ≖_≖)
-                this.$el.style.margin = 0;
         
                 // get canvas 2D context and set the correct size
                 this.ctx = this.canvas.getContext('2d');
@@ -44,25 +46,46 @@
                     this.pos.y = e.clientY - rect.top;
                 },
                 resize() {
-                    this.ctx.canvas.width = 500;
-                    this.ctx.canvas.height = 500;
+                    this.ctx.canvas.width = window.innerWidth;
+                    this.ctx.canvas.height = window.innerHeight;
                 },
                 setColor(c) {
                     this.color = c;
                 },
-                draw(e) {
+                handleMouse(e) {
+                    if (this.drawingMode) {
+                        this.draw(e);
+                    } else {
+                        this.draw(e, true);
+                    }
+                },
+                draw(e, erase=false) {
                     if (e.buttons !== 1) return;
         
                     this.ctx.beginPath();
                     this.ctx.lineWidth = 5;
                     this.ctx.lineCap = 'round';
-                    this.ctx.strokeStyle = this.color;
+                    if (erase) {
+                        this.ctx.strokeStyle = "white";
+                    } else {
+                        this.ctx.strokeStyle = this.color;
+                    }
                     this.ctx.moveTo(this.pos.x, this.pos.y);
                     this.setPosition(e);
                     this.ctx.lineTo(this.pos.x, this.pos.y);
                     this.ctx.stroke();
                 },
+                toggleMode(e) {
+                    if (e.key === '1') {
+                        this.setDrawingMode(true);
+                    } else if (e.key === '2') {
+                        this.setDrawingMode(false);
+                    }
+                },
+                setDrawingMode(mode) {
+                    this.drawingMode = mode;
+                },
         },
     };
-
 </script>
+
