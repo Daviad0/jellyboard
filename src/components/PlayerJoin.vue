@@ -4,7 +4,7 @@
         <div class = "playerJoin">
             <img class="logo" src = "/src/assets/jellylogo.png" title="jellyboard logo">
             <div ref="main" class = "join transition">
-                <h2 class = "fade-in">Join A JellyBoard</h2>
+                <h1 class = "fade-in">Join A JellyBoard</h1>
                 <div class = "center-align">
                     <input @change="attemptCode" :class="code ? 'codedone' : ''" ref="code" placeholder = "JELLY" maxlength="5" style = "display:inline-block;">
                     <input v-on:keydown.enter="attemptJoin" :style="code ? 'max-width:100vw' : 'max-width:0px;margin-left:0px;opacity:0;padding:0px'" class="username" ref="username" placeholder = "Username" maxlength="20" style = "display:inline-block;">
