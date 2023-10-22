@@ -4,6 +4,8 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import VueSocketIO from 'vue-3-socket.io'
+// use vue cookies
+import VueCookies from 'vue3-cookies'
 // import socketio from 'socket.io-client';
 
 import Lottie from './components/Lottie.vue'
@@ -19,6 +21,7 @@ app.use(new VueSocketIO({
     connection: 'http://localhost:3000',
     options: { path: "/live" }
 }));
+app.use(VueCookies)
 
 app.component("Lottie", Lottie);
 app.component("LottieToggle", LottieToggle);

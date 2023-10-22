@@ -1,7 +1,7 @@
 <template>
     <div id="box" style="position: relative;">
         <div style="position: absolute;right:-5px;bottom:-5px;">
-            <div class="jellybg center-align transition" :style="validItem ? '' : 'transform:rotate(-45deg);background-color:black'" style="width:30px;height:30px;border-radius: 16px;color:white;cursor: pointer;">
+            <div @click="addSlide" class="jellybg center-align transition" :style="validItem ? '' : 'transform:rotate(-45deg);background-color:black'" style="width:30px;height:30px;border-radius: 16px;color:white;cursor: pointer;">
                 {{this.validItem ? '+' : '↑' }}
             </div>
 
@@ -62,9 +62,7 @@
     export default {
         name: "CreatorItem",
         props: {
-            type: String,
-            title: String,
-            
+            code: String
         },
         data(){
             return {
@@ -120,7 +118,7 @@
                 }
             },
             checkIfValid(){
-                if(this.creationData.title == "" || this.creationData.type == ""){
+                if(this.creationData.title == "" || this.creationData.type == "" || this.creationData.title == undefined || this.creationData.type == undefined){
                     this.validItem = false;
                     return;
                 }
@@ -143,6 +141,12 @@
 
                 this.validItem = true;
 
+            },
+            addSlide(){
+                if(this.validItem){
+
+                }
+                this.$socket.emit("host_add_slide", {code: this.code, slide: this.creationData});
             }
         }
     }

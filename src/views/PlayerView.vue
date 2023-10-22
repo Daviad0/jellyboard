@@ -25,7 +25,7 @@
                 },
                 socket: undefined,
                 currentState: undefined,
-                view: "play"
+                view: "home"
             }
         },
 

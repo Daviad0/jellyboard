@@ -9,13 +9,33 @@ import CreatorItem from '../components/CreatorItem.vue'
 
                 THIS IS CREATION INITIAL VIEW
             -->
+            <div style="position: absolute;left:10px;top:200px;" v-if="this.currentState.players != undefined">
+                <div class="jellybg showAnim" style="width:250px;padding:10px;border-radius: 16px;">
+                    <h2 class="white center-align" style="margin:4px;margin-bottom: 10px;">Who's In?</h2>
+                    <div class="center-align">
+                        <div v-for="player in this.currentState.players" class="whitebg apart-align" style="margin:4px;padding:4px 6px;border-radius: 8px;width:100px">
+                            <h5 class="jelly" style="margin:0px;text-wrap:nowrap;text-overflow: ellipsis;">{{ player.username }}</h5>
+                            <h4 class="jelly" style="margin:0px">x</h4>
+                        </div>
+                    </div>
+                   
+                    
+                </div>
+            </div>
+            <!-- <div style="position: absolute;right:20px;bottom:20px;">
+                <div class="jellybg showAnim center-align" style="width:160px;height:60px;padding:10px;border-radius: 16px;">
+                    
+                   <h1 class="white">GO</h1>
+                    
+                </div>
+            </div> -->
             <div class="center-align">
                 <div>
                     <div class="center-align">
                         <h1 class = "fade-in">Create a JellyBoard</h1>
                     </div>
                     
-                    <CreatorItem />
+                    <CreatorItem :code="this.currentState.code"/>
                 </div>
                 
             </div>
@@ -27,6 +47,22 @@ import CreatorItem from '../components/CreatorItem.vue'
             <div style = "position: absolute; width: 10%; top: 100px; left: 65%;height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 0 0px 20px 20px; background-color: rgb(210, 197, 193);">
                 <h2 @click="currentView = 'create'">Voting</h2>
             </div>
+            
+            <div class = pie style = "position: relative; width: 500px; height: 500px">
+                <div class = pie-chart>
+                    <div class = pie-hole></div>
+                </div>
+
+                <div class = pie-key style = "position: absolute; top: 225px; left: 225px; z-index: 4;">
+                <Strong style = "color:#ff264a">Option 1</Strong>
+                <Strong style = "color:#feec1e">Option 2</Strong>
+                <Strong style = "color:#12CBC4">Option 3</Strong>
+
+                </div>
+
+            </div>
+            
+
 
             <div style = "position: absolute; bottom: 70px; left: 0px; background-color: #a09997; height: 170px; width: 30%; border-radius: 0 30px 0 0; display: none;">
                 <h2 style = "color: white; padding-left: 10px;">Settings</h2>
@@ -93,11 +129,48 @@ export default {
     sockets: {
         host_create_session(data){
             const {code} = data;
+            this.$cookies.set("host_code", code);
             this.currentState.code = code;
+        },
+        host_control_session(data){
+            const {valid, code, stateData, players} = data;
+
+            if(valid){
+                this.$cookies.set("host_code", code);
+                this.currentState.players = players;
+                this.currentState.code = code;
+            }
+            else{
+                this.$cookies.remove("host_code");
+                this.currentState.code = undefined;
+                this.$socket.emit("host_create_session");
+            }
+        },
+        host_update_players(data){
+            const {players} = data;
+            this.currentState.players = players;
+        },
+        host_add_slide(data){
+            const {slide} = data;
+            this.items.push(slide);
+
+            if(this.currentView == 'create'){
+                this.currentView = 'live';
+                
+            }
         }
     },
     mounted(){
-        this.$socket.emit("host_create_session");
+        var code = this.$cookies.get("host_code");
+        if(code != undefined){
+            this.$socket.emit("host_control_session", {code: code});
+            
+        }
+        else
+            this.$socket.emit("host_create_session");
+        
+        
+
     },
     methods:{
         createItem(type){

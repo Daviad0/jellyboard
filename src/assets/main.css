@@ -271,7 +271,39 @@
 }
 
 
+.pie-chart {
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background-color: green;
 
+  position: absolute;
+  top:0;
+  left:0;
+  z-index: 2;
+  background:repeating-conic-gradient(
+    from 0deg,
+    #ff264a 0deg calc(3.6deg * 35),
+    #feec1e calc(3.6deg * 35) calc(3.6deg * 70),
+    #12CBC4 calc(3.6deg * 70) calc(3.6deg * 100)
+  );
+}
+
+.pie-hole {
+  width: 350px;
+  height: 350px;
+  border-radius: 50%;
+  background-color: #eadeda;
+  position: absolute;
+  top: 75px;
+  left: 75px;
+  z-index: 3;
+}
+
+.pie-key strong{
+  display: block;
+  margin-bottom: 15px;
+}
 
 
 

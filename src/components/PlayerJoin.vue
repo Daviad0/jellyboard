@@ -2,8 +2,8 @@
 
     <body>
         <div class = "playerJoin">
-            <img class="logo" src = "src/assets/jellylogo.png" title="jellyboard logo">
-            <div class = "join">
+            <img class="logo" src = "/src/assets/jellylogo.png" title="jellyboard logo">
+            <div ref="main" class = "join transition">
                 <h1 class = "fade-in">Join A JellyBoard</h1>
                 <div class = "center-align">
                     <input @change="attemptCode" :class="code ? 'codedone' : ''" ref="code" placeholder = "JELLY" maxlength="5" style = "display:inline-block;">
@@ -13,7 +13,7 @@
 
             </div>
 
-            <div class = "foot" width = 100%>
+            <div ref="bottom" class = "foot transition" width = 100%>
                 <img src = "/src/assets/jellyfooter.png">
             </div>
             <div class = "login">
@@ -73,6 +73,10 @@ export default {
                 this.code = data.code;
                 this.username = data.username;
                 this.error = undefined;
+
+                this.$refs.main.style.opacity = 0;
+                this.$refs.bottom.style.transform = "translateY(500px)";
+
             }else{
                 this.username = undefined;
                 this.error = "Username is invalid!";
