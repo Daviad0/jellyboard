@@ -75,7 +75,9 @@ export default {
                 this.error = undefined;
 
                 this.$refs.main.style.opacity = 0;
-                this.$refs.bottom.style.transform = "translateY(500px)";
+                this.$refs.bottom.style.transform = "translateY(700px)";
+
+                this.$cookies.set("join_info", this.username + "@" + this.code);
 
             }else{
                 this.username = undefined;

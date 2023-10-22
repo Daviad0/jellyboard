@@ -17,6 +17,7 @@
                     <option value="multiple_select">Multiple Select</option>
                     <option value="short_answer">Short Answer</option>
                     <option value="drawing">Drawing</option>
+                    <option value="highlight">Highlight</option>
                 </select>
             </section>
 
@@ -39,6 +40,19 @@
                 <div class="center-align" style="width: 100%;" v-if="this.creationData.additionalData.choices && this.creationData.additionalData.choices.length < 6">
                     <button @click="addChoice()" class="button jellybg white">Add Choice</button>
                 </div>
+
+            </div>
+            
+            
+
+        </section>
+
+        <section class="handleExpand center-align" :style="this.creationData.type == 'highlight' ? 'max-height:100vh;padding:5px 0px' : 'max-height:0px'">
+            <div :key="this.additionalDataKey">
+                <textarea style="resize: none;height:100px;width:100%" placeholder="Text to Show">
+
+                </textarea>
+               
 
             </div>
             
@@ -144,9 +158,9 @@
             },
             addSlide(){
                 if(this.validItem){
-
+                    this.$socket.emit("host_add_slide", {code: this.code, slide: this.creationData});
                 }
-                this.$socket.emit("host_add_slide", {code: this.code, slide: this.creationData});
+                
             }
         }
     }

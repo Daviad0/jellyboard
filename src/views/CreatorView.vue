@@ -48,15 +48,25 @@ import CreatorItem from '../components/CreatorItem.vue'
                 <h2 @click="currentView = 'create'">Voting</h2>
             </div>
             
-            <div class = pie style = "position: relative; width: 500px; height: 500px">
+
+
+            <div class = multi-select style = "display: none;">
+                <div class = multi-option><h4>Option 1</h4>   <p>95%</p></div>
+                <div class = multi-option><h4>Option 2</h4>   <p>5%</p></div>
+                <div class = multi-option><h4>Option 3</h4>   <p>49%</p></div>
+            </div>
+
+
+
+            <div class = pie style = "position: relative; width: 500px; height: 500px; display: none;">
                 <div class = pie-chart>
                     <div class = pie-hole></div>
                 </div>
 
-                <div class = pie-key style = "position: absolute; top: 225px; left: 225px; z-index: 4;">
-                <Strong style = "color:#ff264a">Option 1</Strong>
-                <Strong style = "color:#feec1e">Option 2</Strong>
-                <Strong style = "color:#12CBC4">Option 3</Strong>
+                <div class = pie-key style = "position: absolute; top: 200px; left: 215px; z-index: 4;">
+                <Strong style = "background-color:#ff264a; color: black;">Option 1</Strong>
+                <Strong style = "background-color:#cfc01a; color: black;">Option 2</Strong>
+                <Strong style = "background-color:#12CBC4; color: black;">Option 3</Strong>
 
                 </div>
 
@@ -122,7 +132,10 @@ export default {
             typesOfItems: ["Multiple Choice", "Short Answer", "Multiple Select", "Drawing"],
             currentView: "live",
             currentState: {
-                
+                stateData: {
+                    started: false,
+                    currentSlide: undefined
+                }
             }
         }
     },
@@ -156,6 +169,11 @@ export default {
 
             if(this.currentView == 'create'){
                 this.currentView = 'live';
+
+                this.currentState.stateData.started = true;
+                this.currentState.stateData.currentSlide = slide;
+
+                this.$socket.emit("host_update_state", {code: this.currentState.code, stateData: this.currentState.stateData});
                 
             }
         }
