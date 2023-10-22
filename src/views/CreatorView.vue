@@ -264,7 +264,7 @@ export default {
             this.$socket.emit("host_create_session");
         
         
-        setInterval(() => {
+        setInterval(function(){
             if(this.answerConcurrency > 0){
                 this.answerConcurrency = 0;
                 this.summarizeAnswers();
