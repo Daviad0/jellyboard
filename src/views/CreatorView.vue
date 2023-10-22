@@ -1,6 +1,4 @@
-<script setup>
-import CreatorItem from '../components/CreatorItem.vue'
-</script>
+
 <template>
     
     <div class="creatorView center-align">

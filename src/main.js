@@ -11,6 +11,7 @@ import VueCookies from 'vue3-cookies'
 import Lottie from './components/Lottie.vue'
 import LottieToggle from './components/LottieToggle.vue'
 import LottieButton from './components/LottieButton.vue'
+import CreatorItem from './components/CreatorItem.vue'
 // import VueSocketIO from 'vue-socket.io';
 
 const app = createApp(App)
@@ -24,6 +25,7 @@ app.use(VueCookies)
 
 app.component("Lottie", Lottie);
 app.component("LottieToggle", LottieToggle);
+app.component("CreatorItem", CreatorItem);
 app.component("LottieButton", LottieButton);
 
 
