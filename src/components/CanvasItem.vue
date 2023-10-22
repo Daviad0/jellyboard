@@ -5,9 +5,10 @@
             <button class="color-button" id="blue" @click="setColor('blue'); setDrawingMode(true)"></button>
             <button class="color-button" id="green" @click="setColor('green'); setDrawingMode(true)"></button>
             <button class="color-button" id="yellow" @click="setColor('yellow'); setDrawingMode(true)"></button>
+            <input type="color" id="colorpicker" ref="colorPicker" value="#ff0000">
             <button class="draw-button" id="draw" @click="setDrawingMode(true)">draw</button>
             <button class="erase-button" id="erase" @click="setDrawingMode(false)">erase</button>
-            <input type="color" id="colorpicker" value="#0000ff" @click="setColor('red'); setDrawingMode(true)">
+            
         </div>
         <div id ="canvas" class="center-align"></div>
     </div>
@@ -43,53 +44,64 @@
         
                 // Listen for number keys to toggle between drawing and erasing
                 document.addEventListener('keydown', this.toggleMode);
+
+                // watch when the color picker changes color
+                this.watchColorPicker();
             },
-            methods: {
-                setPosition(e) {
-                    const rect = this.canvas.getBoundingClientRect();
-                    this.pos.x = e.clientX - rect.left;
-                    this.pos.y = e.clientY - rect.top;
-                },
-                resize() {
-                    this.ctx.canvas.width = window.innerWidth;
-                    this.ctx.canvas.height = window.innerHeight;
-                },
-                setColor(c) {
-                    this.color = c;
-                },
-                handleMouse(e) {
-                    if (this.drawingMode) {
-                        this.draw(e);
-                    } else {
-                        this.draw(e, true);
-                    }
-                },
-                draw(e, erase=false) {
-                    if (e.buttons !== 1) return;
-        
-                    this.ctx.beginPath();
-                    this.ctx.lineWidth = 5;
-                    this.ctx.lineCap = 'round';
-                    if (erase) {
-                        this.ctx.strokeStyle = "white";
-                    } else {
-                        this.ctx.strokeStyle = this.color;
-                    }
-                    this.ctx.moveTo(this.pos.x, this.pos.y);
-                    this.setPosition(e);
-                    this.ctx.lineTo(this.pos.x, this.pos.y);
-                    this.ctx.stroke();
-                },
-                toggleMode(e) {
-                    if (e.key === '1') {
-                        this.setDrawingMode(true);
-                    } else if (e.key === '2') {
-                        this.setDrawingMode(false);
-                    }
-                },
-                setDrawingMode(mode) {
-                    this.drawingMode = mode;
-                },
+      methods: {
+
+            watchColorPicker() {
+                this.$refs.colorPicker.addEventListener("input", () => {
+                    this.color = this.$refs.colorPicker.value;
+                    this.$refs.colorPicker.style.backgroundColor = this.color;
+                    this.setDrawingMode(true);
+                });
+            },
+            setPosition(e) {
+                const rect = this.canvas.getBoundingClientRect();
+                this.pos.x = e.clientX - rect.left;
+                this.pos.y = e.clientY - rect.top;
+            },
+            resize() {
+                this.ctx.canvas.width = window.innerWidth;
+                this.ctx.canvas.height = window.innerHeight;
+            },
+            setColor(c) {
+                this.color = c;
+            },
+            handleMouse(e) {
+                if (this.drawingMode) {
+                    this.draw(e);
+                } else {
+                    this.draw(e, true);
+                }
+            },
+            draw(e, erase=false) {
+                if (e.buttons !== 1) return;
+
+                this.ctx.beginPath();
+                this.ctx.lineWidth = 5;
+                this.ctx.lineCap = 'round';
+                if (erase) {
+                    this.ctx.strokeStyle = "white";
+                } else {
+                    this.ctx.strokeStyle = this.color;
+                }
+                this.ctx.moveTo(this.pos.x, this.pos.y);
+                this.setPosition(e);
+                this.ctx.lineTo(this.pos.x, this.pos.y);
+                this.ctx.stroke();
+            },
+            toggleMode(e) {
+                if (e.key === '1') {
+                    this.setDrawingMode(true);
+                } else if (e.key === '2') {
+                    this.setDrawingMode(false);
+                }
+            },
+            setDrawingMode(mode) {
+                this.drawingMode = mode;
+            },
         },
     };
 </script>

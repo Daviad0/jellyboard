@@ -27,11 +27,14 @@
             </section> -->
         </div>
         
-        <section class="handleExpand center-align" :style="this.creationData.type == 'multiple_choice' ? 'max-height:100vh;padding:5px 0px' : 'max-height:0px'">
+        <section class="handleExpand center-align" :style="this.creationData.type == 'multiple_choice' || this.creationData.type == 'multiple_select' ? 'max-height:100vh;padding:5px 0px' : 'max-height:0px'">
             <div :key="this.additionalDataKey">
                 <div class="center-align" v-for="(item,index) in this.creationData.additionalData.choices" style="margin:5px">
-                    <span>{{ shapes[index].substring(0,1) }}</span>
+                    <img :src="`/src/assets/${images[index]}`" style="width:30px"/>
                     <input @change="editChoice(indexChoice, $event.srcElement.value)" :value="item" :placeholder="`Choice #${index+1}`" type="text" style="margin:0px 5px">
+                    <div class="jellybg center-align" style="width:20px;height:20px;border-radius: 16px;color:white;cursor: pointer;">
+                        +
+                    </div>
                 </div>
             </div>
             
@@ -50,7 +53,7 @@
         },
         data(){
             return {
-                shapes: ["triangle", 'circle', 'square', 'diamond', 'hexagon', 'z'], 
+                images: ["jellycircle.png", "jellysquare.png", "jellyheart.png", "jellystar.png", "jellystop.png", "jellytriangle.png"], 
                 creationData: {
                     type: this.type,
                     title: this.title,
@@ -74,12 +77,23 @@
                     if(this.creationData.additionalData.choices == undefined)
                         this.creationData.additionalData.choices = ["", "", "", ""];
                 }else{
-                    this.creationData.additionalData.choices = undefined;
+                    setTimeout(() => {
+                        this.creationData.additionalData.choices = undefined;
+                    }, 500)
+                    
                 }
             },
             editChoice(index, content){
                 this.creationData.additionalData.choices[index] = content;
                 
+            },
+            removeChoice(index){
+                this.creationData.additionalData.choices.splice(index);
+            },
+            addChoice(){
+                if(this.creationData.additionalData.choices < 6){
+                    this.creationData.additionalData.choices.push("");
+                }
             }
         }
     }

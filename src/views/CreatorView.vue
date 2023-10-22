@@ -23,8 +23,16 @@ import CreatorItem from '../components/CreatorItem.vue'
             <div style = "position: absolute; width: 80%; top: 0; left: 0; height: 125px; background-color: #ba1c8d; border-radius: 0 0 40px 0px; display: flex; align-items: center;">
                 <h1 style = "padding-left: 20px; color: #eadeda;">What is the capital of the moon?</h1>
             </div>
-            <div style = "position: absolute; width: 20%; top: 125px; left: 55%; background-color: #ba1c8d; height: 40px; display: flex; align-items: center; border-radius: 0 0px 10px 0px;">
-                <h2>Voting</h2>
+            <div style = "position: absolute; width: 10%; top: 125px; left: 65%;height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 0 0px 20px 20px; background-color: rgb(210, 197, 193);">
+                <h2 @click="currentView = 'create'">Voting</h2>
+            </div>
+
+            <div style = "position: absolute; bottom: 70px; left: 0px; background-color: #a09997; height: 170px; width: 30%; border-radius: 0 30px 0 0; display: none;">
+                <h2 style = "color: white; padding-left: 10px;">Settings</h2>
+            </div>
+            
+            <div style = "position: absolute; bottom: 0px; left: 0px; background-color: rgb(210, 197, 193); width: 90%; height: 70px; border-radius: 0 20px 0 0;">
+            
             </div>
         </div>
         

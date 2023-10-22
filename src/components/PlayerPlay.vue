@@ -13,9 +13,10 @@
         <div style="position: absolute;top:20px;bottom: 0;width:100%" class="center-align">
 
             <div class="center-align">
-                <SubmitAnswerItem/>
-                <Lottie :src="'/src/assets/jellyloading.json'" :loop="true" style="width:200px;opacity: 0.7;"/>
+                <MultipleChoiceItem :choices="3"/>
+                
             </div>
+            <Lottie :src="'/src/assets/jellyloading.json'" :loop="true" style="width:200px;opacity: 0.7;"/>
             
         </div>
         
