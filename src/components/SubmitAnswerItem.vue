@@ -1,7 +1,14 @@
 <template>
     <section id="question_field">
-        <input placeholder="Type in answer" type="text"><br>
-        <button>submit</button>
+        <div class="center-align">
+            <input class="inputTitle" placeholder="What say you?" type="text">
+        </div>
+        <div class="center-align" style="width: 100%;">
+            <button class="button jellybg white">Submit</button>
+        </div>
+            
+        
+        
     </section>
 </template>
 

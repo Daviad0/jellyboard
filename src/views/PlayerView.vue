@@ -1,11 +1,18 @@
 
 <template>
-    <PlayerJoin/>
+    <div v-if="view == 'home'">
+        <PlayerJoin/>
+    </div>
+    <div v-if="view == 'play'">
+        <PlayerPlay/>
+    </div>
+
 </template>
 <script setup>
     // import socketio client
     // import io from 'socket.io-client';
     import PlayerJoin from '../components/PlayerJoin.vue'
+    import PlayerPlay from '../components/PlayerPlay.vue'
 </script>
 <script>
     export default {
@@ -18,7 +25,7 @@
                 },
                 socket: undefined,
                 currentState: undefined,
-                view: "home"
+                view: "play"
             }
         },
 

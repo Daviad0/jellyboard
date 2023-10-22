@@ -2,20 +2,32 @@
 import CreatorItem from '../components/CreatorItem.vue'
 </script>
 <template>
-    <div class="playerJoin">
-        <div class="center-align">
-            <h1 class = "fade-in">Create a JellyBoard</h1>
-        </div>
-        <div v-for="item in items" :key="item.id">
-            <CreatorItem :type="item.type" :title="item.title"/>
-        </div>
-        <div class="center-align">
-            <div class="bottomMenu jellybg center-align">
-                <div class="itemOption whitebg" v-for="itemOption in typesOfItems">
-                    {{ itemOption }}
+    <div class="creatorView center-align">
+        <div v-if="currentView == 'create'">
+            <!--
+
+                THIS IS CREATION INITIAL VIEW
+            -->
+            <div class="center-align">
+                <div>
+                    <div class="center-align">
+                        <h1 class = "fade-in">Create a JellyBoard</h1>
+                    </div>
+                    
+                    <CreatorItem />
                 </div>
+                
             </div>
         </div>
+        <div v-if="currentView == 'live'">
+            <div style = "position: absolute; width: 80%; top: 0; left: 0; height: 125px; background-color: #ba1c8d; border-radius: 0 0 40px 0px; display: flex; align-items: center;">
+                <h1 style = "padding-left: 20px; color: #eadeda;">What is the capital of the moon?</h1>
+            </div>
+            <div style = "position: absolute; width: 20%; top: 125px; left: 55%; background-color: #ba1c8d; height: 40px; display: flex; align-items: center; border-radius: 0 0px 10px 0px;">
+                <h2>Voting</h2>
+            </div>
+        </div>
+        
         
         
     </div>
@@ -29,6 +41,7 @@ export default {
         return {
             items: [],
             typesOfItems: ["Multiple Choice", "Short Answer", "Multiple Select", "Drawing"],
+            currentView: "live"
         }
     },
     methods:{

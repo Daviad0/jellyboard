@@ -2,21 +2,19 @@
 
     <body>
         <div class = "playerJoin">
-            <img class = "logo" src = "/src/assets/jellylogo.png"> 
+            <img class="logo" src = "src/assets/jellylogo.png" title="jellyboard logo">
             <div class = "join">
                 <h1 class = "fade-in">Join A JellyBoard</h1>
                 <div class = "center-align">
-                    <input @change="attemptJoin" ref="code" placeholder = "JELLY" maxlength="5" style = "display:inline-block;">
+                    <input @change="attemptCode" :class="code ? 'codedone' : ''" ref="code" placeholder = "JELLY" maxlength="5" style = "display:inline-block;">
+                    <input v-on:keydown.enter="attemptJoin" :style="code ? 'max-width:100vw' : 'max-width:0px;margin-left:0px;opacity:0;padding:0px'" class="username" ref="username" placeholder = "Username" maxlength="20" style = "display:inline-block;">
                 </div>
-                <div class = hidden-parent>
-                    <p class = hidden>Error: Code not found</p>
-                    <p class = hidden>Error: Username already taken</p>
-                </div>
+                <p :class="error != undefined ? '' : 'hidden'">{{ error }}</p>
 
             </div>
 
             <div class = "foot" width = 100%>
-                <img src = "/src/assets/jellyfooter.png" width = "100%">
+                <img src = "/src/assets/jellyfooter.png">
             </div>
             <div class = "login">
                 <a href = ""><p>Login or sign up here!</p></a>
@@ -33,10 +31,27 @@
 
 export default {
     name: 'PlayerJoin',
+    data(){
+        return {
+            code: undefined,
+            username: undefined,
+            error: undefined
+        }
+    },
     methods: {
-        attemptJoin(){
+        attemptCode(){
             var code = this.$refs.code.value;
-            this.$socket.emit("home_verify_code", {code: code});
+            if(code.length == 5)
+                this.$socket.emit("home_verify_code", {code: code});
+            else
+                this.code = undefined;
+        },
+        attemptJoin(){
+            var username = this.$refs.username.value;
+            if(username.length > 0)
+                this.$socket.emit("home_join", {code: this.code, username: username});
+            else
+                this.username = undefined;
         }
     },
     mounted(){
@@ -44,17 +59,23 @@ export default {
     },
     sockets: {
         home_verify_code(data){
+            
             if(data.valid){
-                alert("CODE VALID")
+                this.code = data.code;
+                this.error = undefined;
             }else{
-                alert("CODE INVALID")
+                this.code = undefined;
+                this.error = "Code is invalid!"
             }
         },
         home_join(data){
             if(data.valid){
-                alert("JOINED")
+                this.code = data.code;
+                this.username = data.username;
+                this.error = undefined;
             }else{
-                alert("ERROR")
+                this.username = undefined;
+                this.error = "Username is invalid!";
             }
         },
         home_active_sessions(data){

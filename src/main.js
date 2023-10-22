@@ -5,6 +5,9 @@ import App from './App.vue'
 import router from './router'
 import VueSocketIO from 'vue-3-socket.io'
 // import socketio from 'socket.io-client';
+
+import Lottie from './components/Lottie.vue'
+import LottieToggle from './components/LottieToggle.vue'
 // import VueSocketIO from 'vue-socket.io';
 
 // export const SocketInstance = socketio('http://localhost:3000');
@@ -16,6 +19,9 @@ app.use(new VueSocketIO({
     connection: 'http://localhost:3000',
     options: { path: "/live" }
 }));
+
+app.component("Lottie", Lottie);
+app.component("LottieToggle", LottieToggle);
 
 // app.use(new VueSocketIO({
 //     connection: 'http://localhost:3000',

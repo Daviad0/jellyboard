@@ -1,12 +1,16 @@
 <template>
-  <div class="color-picker">
-    <button class="color-button" id="red" @click="setColor('red')">red</button>
-    <button class="color-button" id="blue" @click="setColor('blue')">blue</button>
-    <button class="color-button" id="green" @click="setColor('green')">green</button>
-    <button class="color-button" id="yellow" @click="setColor('yellow')">yellow</button>
-    <button class="draw-button" id="draw" @click="setDrawingMode(true)">draw</button>
-    <button class="erase-button" id="erase" @click="setDrawingMode(false)">erase</button>
-  </div>
+    <div class="center-align">
+        <div id="color-picker" class="center-align">
+            <button class="color-button" id="red" @click="setColor('red'); setDrawingMode(true)"></button>
+            <button class="color-button" id="blue" @click="setColor('blue'); setDrawingMode(true)"></button>
+            <button class="color-button" id="green" @click="setColor('green'); setDrawingMode(true)"></button>
+            <button class="color-button" id="yellow" @click="setColor('yellow'); setDrawingMode(true)"></button>
+            <button class="draw-button" id="draw" @click="setDrawingMode(true)">draw</button>
+            <button class="erase-button" id="erase" @click="setDrawingMode(false)">erase</button>
+            <input type="color" id="colorpicker" value="#0000ff" @click="setColor('red'); setDrawingMode(true)">
+        </div>
+        <div id ="canvas" class="center-align"></div>
+    </div>
 </template>
 
 
@@ -23,9 +27,10 @@
             },
             mounted() {
                 // create canvas element and append it to the component's element
+                var divElement = document.getElementById("canvas");
                 this.canvas = document.createElement('canvas');
                 this.canvas.id = "drawingarea";
-                this.$el.appendChild(this.canvas);
+                divElement.appendChild(this.canvas);
         
                 // get canvas 2D context and set the correct size
                 this.ctx = this.canvas.getContext('2d');
