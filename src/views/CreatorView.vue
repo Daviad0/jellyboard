@@ -123,7 +123,7 @@ import CreatorItem from '../components/CreatorItem.vue'
                 <img style = "height: 50px; margin-right: 30px;" src = "/src/assets/jellycamera.png">
                 <img style = "height: 50px; margin-right: 50px;" src = "/src/assets/jellysettings.png">
                 <img style = "height: 50px; margin-right: 10px;" src = "/src/assets/jellyperson.png">
-                <p style = "color: black;font-size: 20px; position: relative; margin-top: 60px;\">{{ this.currentState.stateData.started ? this.currentState.players.length : 0 }}</p>
+                <p style = "color: black;font-size: 20px; position: relative; margin-top: 60px;">{{ this.currentState.stateData.started ? this.currentState.players.length : 0 }}</p>
             
             </div>
             <div style = "position: absolute; bottom: 70px; left: 0px; " v-if="createNewSlide" class="showAnim">
