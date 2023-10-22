@@ -13,8 +13,6 @@ import LottieToggle from './components/LottieToggle.vue'
 import LottieButton from './components/LottieButton.vue'
 // import VueSocketIO from 'vue-socket.io';
 
-// export const SocketInstance = socketio('http://localhost:3000');
-
 const app = createApp(App)
 
 app.use(new VueSocketIO({
@@ -28,10 +26,6 @@ app.component("Lottie", Lottie);
 app.component("LottieToggle", LottieToggle);
 app.component("LottieButton", LottieButton);
 
-// app.use(new VueSocketIO({
-//     connection: 'http://localhost:3000',
-//     withCredentials: false
-// }));
 
 app.use(router)
 
