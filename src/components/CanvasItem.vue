@@ -3,17 +3,17 @@
     <div class="center-align">
         <div id="color-picker" class="center-align" style="list-style:none; padding:0;">
             <ul style="list-style:none; padding:0">
-                <li><button class="color-button" id="red" @click="setColor('red'); setDrawingMode(true)"></button></li>
-                <li><button class="color-button" id="blue" @click="setColor('blue'); setDrawingMode(true)"></button></li>
-                <li><button class="color-button" id="green" @click="setColor('green'); setDrawingMode(true)"></button></li>
-                <li><button class="color-button" id="yellow" @click="setColor('yellow'); setDrawingMode(true)"></button></li>
+                <li><button class="color-button" id="red" @click="setColor('#D04343'); setDrawingMode(true)"></button></li>
+                <li><button class="color-button" id="blue" @click="setColor('#4348D0'); setDrawingMode(true)"></button></li>
+                <li><button class="color-button" id="green" @click="setColor('#337B18'); setDrawingMode(true)"></button></li>
+                <li><button class="color-button" id="jellycolor" @click="setColor('#ba1c8d'); setDrawingMode(true)"></button></li>
                 <li><button class="color-button" id="black" @click="setColor('black'); setDrawingMode(true)"></button></li>
                 <li><input class="color-button" type="color" id="colorpicker" ref="colorPicker" value="#ff0000"></li>
-                <li><button class="erase-button color-button" id="erase" @click="setDrawingMode(false)">erase</button></li>
-                <li><img style="object-fit:cover; width: 60px" id="brush" src="/src/assets/jellybrushh.png"></li>
+                <li style="height: 60px"><img style="object-fit:cover; width: 60px;" @click="setDrawingMode(false)" class="tools" src="/src/assets/jellyerase.png"></li>
+                <li><img style="object-fit:cover; width: 60px;" @click="setDrawingMode(true)" class="tools" id="brush" src="/src/assets/jellybrushh.png"></li>
             </ul>
         </div>
-        <div style="background-color: white;padding:5px;border-radius: 16px;border: 4px solid #ba1c8d;">
+        <div style="background-color: #eadeda;padding:5px;border-radius: 16px;border: 4px solid #ba1c8d;">
           <div id ="canvas" class="center-align" style="border-radius: 16px;"></div>
         </div>
         
@@ -33,7 +33,7 @@
                     ctx: null,
                     drawingMode: true,
                     pos: { x: 0, y: 0 },
-                    color: "red",
+                    color: "#D04343",
                 };
             },
             mounted() {
@@ -96,10 +96,10 @@
                 if (e.buttons !== 1) return;
 
                 this.ctx.beginPath();
-                this.ctx.lineWidth = erase ? 50 : 3;
+                this.ctx.lineWidth = erase ? 50 : 5;
                 this.ctx.lineCap = 'round';
                 if (erase) {
-                    this.ctx.strokeStyle = "white";
+                    this.ctx.strokeStyle = "#eadeda";
                 } else {
                     this.ctx.strokeStyle = this.color;
                 }
@@ -121,7 +121,7 @@
                 this.drawingMode = mode;
             },
             submitAnswer(){
-              var dataURL = this.canvas.toDataURL("image/jpeg", 0.1);
+              var dataURL = this.canvas.toDataURL();
               this.$socket.emit("game_submit_answer", {answer: dataURL});
 
             }

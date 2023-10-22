@@ -17,6 +17,13 @@ export default {
         submitAnswer(){
             
             this.$socket.emit("game_submit_answer", {answer: this.$refs.answer.value});
+            this.$socket.emit("game_my_answer")
+        }
+    },
+    sockets:{
+        game_your_answer(data){
+            const {answer} = data;
+            this.$refs.answer.value = answer;
         }
     }
 }

@@ -35,6 +35,8 @@
                     this.$refs.lottie.play();
                     this.toggled = true;
                 }
+
+                this.$emit("toggle", this.toggled);
                 
             }
         }

@@ -8,8 +8,9 @@
                 <div class = "center-align">
                     <input @change="attemptCode" :class="code ? 'codedone' : ''" ref="code" placeholder = "JELLY" maxlength="5" style = "display:inline-block;">
                     <input v-on:keydown.enter="attemptJoin" :style="code ? 'max-width:100vw' : 'max-width:0px;margin-left:0px;opacity:0;padding:0px'" class="username" ref="username" placeholder = "Username" maxlength="20" style = "display:inline-block;">
+                    <LottieButton @done="attemptJoin" :src="'/src/assets/jellycheck.json'" :duration="1000" style="width:60px;z-index: 30;" :disabled="code == undefined" :style="code ? 'opacity:0.7' : 'opacity:0;pointer-events:none;'"/>
                 </div>
-                <p :class="error != undefined ? '' : 'hidden'">{{ error }}</p>
+                <p class="center-align" :class="error != undefined ? '' : 'hidden'">{{ error }}</p>
 
             </div>
 
@@ -17,6 +18,7 @@
                 <img src = "/src/assets/jellyfooter.png">
             </div>
             <div class = "login">
+                <div class = center-align><a href = "/creator" style = "z-index: 4;">Click here to create a JellyBoard!</a></div>
             </div>
         </div>
 

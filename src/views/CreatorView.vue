@@ -98,29 +98,36 @@ import CreatorItem from '../components/CreatorItem.vue'
             
 
 
-            <div style = "position: absolute; bottom: 70px; left: 0px; background-color: #a09997; height: 170px; width: 30%; border-radius: 0 30px 0 0; display: none;">
-                <h2 style = "color: white; padding-left: 10px;">Settings</h2>
+            <div :style="slideMenuOpen ? `max-height:400px;padding:10px;` : 'max-height:0px;padding:0px 10px;'" class="handleExpand transition" style = "position: absolute; bottom: 70px; left: 0px; background-color: rgb(210, 197, 193); width: 300px;border-radius: 0px 16px 0px 0px;">
+                <div @click="selectSlide(slide.id)" v-for="slide in items" style="padding:6px 12px;border-radius: 8px;margin:4px 0px" class="apart-align slideselect transition">
+                    <h3 class="jelly" style="margin:0px">{{ slide.title }}</h3>
+                    <h4 class="jelly" style="margin:0px"><i>{{ slide.type }}</i></h4>
+                </div>
             </div>
             
-            <div style = "position: absolute; bottom: 0px; left: 0px; background-color: rgb(210, 197, 193); width: 55%; height: 70px; border-radius: 0 20px 0 0; display: flex; align-items: center;">
-                <img style = "height: 50px;" src = "/src/assets/jellyleft.png">
-                <img style = "height: 50px;" src = "/src/assets/jellyright.png">
+            <div style = "position: absolute; bottom: 0px; left: 0px; background-color: rgb(210, 197, 193); width: 60%; height: 70px; border-radius: 0 20px 0 0; display: flex; align-items: center;">
+                <img @click="slideMenuOpen = !slideMenuOpen" :style="slideMenuOpen ? `transform:rotate(-90deg)` : `transform:rotate(90deg)`" style = "height: 50px;cursor:pointer; margin-right: 20px;" src = "/src/assets/jellyleft.png" class="transition">
+                <img @click="prevSlide()" style = "height: 50px;" src = "/src/assets/jellyleft.png">
+                <img @click="nextSlide()" style = "height: 50px;" src = "/src/assets/jellyright.png">
                 <div>
                     <select id="dropdown" class="jellybg" style = "margin-left: 20px; font-size: 16px;">
                         <option>Voting</option>
-                        <option>Submission</option>
+                        <option selected>Submission</option>
                         <option>Rating</option>
                     </select>
                 </div>
                 <div style = "margin-left: 30px; margin-right: 30px;">
-                <p style = "padding: 0; margin: 0;">Enable Answering</p>
-                <LottieToggle @click="changeEnableToggle($event.srcElement)" :begin="this.currentState.stateData.interaction.canRespond" :src="'/src/assets/jellymode_toggle_switch.json'" style="width: 80px; height: 40px; margin: auto;"/>
+                    <p style = "position: relative; font-size: 15px; color: #ba1c8d; padding: 0; margin: 0;">Enable Responses</p>
+                    <LottieToggle @toggle="changeEnableToggle($event)" :begin="this.currentState.stateData.interaction.canRespond" :src="'/src/assets/jellymode_toggle_switch.json'" style="width: 80px; height: 40px; margin: auto; paddposition: relative; margin-top: -20px; margin-bottom: -10px;"/>
                 </div>
                 <img style = "height: 50px; margin-right: 30px;" src = "/src/assets/jellycamera.png">
                 <img style = "height: 50px; margin-right: 50px;" src = "/src/assets/jellysettings.png">
                 <img style = "height: 50px; margin-right: 10px;" src = "/src/assets/jellyperson.png">
-                <p style = "font-size: 20px;">{{ this.currentState.stateData.started ? this.currentState.players.length : 0 }}</p>
+                <p style = "color: black;font-size: 20px; position: relative; margin-top: 60px;\">{{ this.currentState.stateData.started ? this.currentState.players.length : 0 }}</p>
             
+            </div>
+            <div style = "position: absolute; bottom: 70px; left: 0px; " v-if="createNewSlide" class="showAnim">
+                <CreatorItem :code="this.currentState.code"/>
             </div>
         </div>
         
@@ -172,7 +179,9 @@ export default {
             },
             useAnswerData: {},
             answerConcurrency: 0,
-            summarizedAnswers: 0
+            summarizedAnswers: 0,
+            createNewSlide: false,
+            slideMenuOpen: false
         }
     },
     sockets: {
@@ -183,15 +192,18 @@ export default {
             this.currentState.code = code;
         },
         host_control_session(data){
-            const {valid, code, stateData, players} = data;
+            const {valid, code, stateData, players, slides} = data;
 
             if(valid){
                 this.$cookies.set("host_code", code);
                 this.currentState.players = players;
                 this.currentState.code = code;
                 this.currentState.stateData = stateData;
+                this.items = slides;
                 if(stateData.started){
                     this.currentView = 'live';
+                }else{
+                    this.currentView = 'create';
                 }
                 this.summarizeAnswers();
             }
@@ -220,6 +232,16 @@ export default {
 
                 this.$socket.emit("host_update_state", {code: this.currentState.code, stateData: this.currentState.stateData});
                 
+            }else{
+                this.createNewSlide = false;
+                this.currentState.stateData.currentSlide = slide;
+                this.currentState.stateData.answers = {};
+                this.answerConcurrency++;
+                this.useAnswerData = {};
+                this.summarizedAnswers = 0;
+                this.currentState.stateData.interaction.canRespond = true;
+                this.currentState.stateData.interaction.type = "submission";
+                this.$socket.emit("host_update_state", {code: this.currentState.code, stateData: this.currentState.stateData});
             }
 
             
@@ -266,6 +288,74 @@ export default {
                 title: "",
                 data: {}
             })
+        },
+        prevSlide(){
+            console.log(this.items);
+            var currentSlideIndex = this.items.indexOf(this.items.find((item) => item.id == this.currentState.stateData.currentSlide.id));
+            if(currentSlideIndex > 0){
+
+                this.currentState.stateData.currentSlide.answers = this.currentState.stateData.answers; 
+                this.items[currentSlideIndex] = this.currentState.stateData.currentSlide;
+
+                this.currentState.stateData.currentSlide = this.items[currentSlideIndex-1];
+                this.currentState.stateData.answers = this.currentState.stateData.currentSlide.answers;
+                this.answerConcurrency++;
+                this.useAnswerData = {};
+                this.summarizedAnswers = 0;
+                if(this.currentState.stateData.answers == undefined){
+                    this.currentState.stateData.answers = {};
+                }else{
+                    this.summarizeAnswers();
+                }
+                
+                
+                this.currentState.stateData.interaction.canRespond = true;
+                this.currentState.stateData.interaction.type = "submission";
+                this.$socket.emit("host_update_state", {code: this.currentState.code, stateData: this.currentState.stateData});
+            }
+        },
+        nextSlide(){
+            var currentSlideIndex = this.items.indexOf(this.items.find((item) => item.id == this.currentState.stateData.currentSlide.id));
+            if(currentSlideIndex < this.items.length-1){
+                this.currentState.stateData.currentSlide.answers = this.currentState.stateData.answers; 
+                this.items[currentSlideIndex] = this.currentState.stateData.currentSlide;
+
+                this.currentState.stateData.currentSlide = this.items[currentSlideIndex+1];
+                this.currentState.stateData.answers = this.currentState.stateData.currentSlide.answers;
+                this.answerConcurrency++;
+                this.useAnswerData = {};
+                this.summarizedAnswers = 0;
+                if(this.currentState.stateData.answers == undefined){
+                    this.currentState.stateData.answers = {};
+                }else{
+                    this.summarizeAnswers();
+                }
+                this.currentState.stateData.interaction.canRespond = true;
+                this.currentState.stateData.interaction.type = "submission";
+                this.$socket.emit("host_update_state", {code: this.currentState.code, stateData: this.currentState.stateData});
+            }else{
+                // we need to prompt to create a new slide
+                this.createNewSlide = true;
+            }
+        },
+        selectSlide(id){
+
+            this.currentState.stateData.currentSlide.answers = this.currentState.stateData.answers; 
+            this.items[this.items.indexOf(this.items.find((item) => item.id == this.currentState.stateData.currentSlide.id))] = this.currentState.stateData.currentSlide;
+
+            this.currentState.stateData.currentSlide = this.items.find((item) => item.id == id);
+            this.currentState.stateData.answers = this.currentState.stateData.currentSlide.answers;
+            this.answerConcurrency++;
+            this.useAnswerData = {};
+            this.summarizedAnswers = 0;
+            if(this.currentState.stateData.answers == undefined){
+                this.currentState.stateData.answers = {};
+            }else{
+                this.summarizeAnswers();
+            }
+            this.currentState.stateData.interaction.canRespond = true;
+            this.currentState.stateData.interaction.type = "submission";
+            this.$socket.emit("host_update_state", {code: this.currentState.code, stateData: this.currentState.stateData});
         },
         getPieChartStyleData(){
             
@@ -379,8 +469,9 @@ export default {
             this.summarizedAnswers += 1;
         
         },
-        changeEnableToggle(toggler){
-            this.currentState.stateData.interaction.canRespond = toggler.toggled;
+        changeEnableToggle(toggled){
+            console.log("TOGGLE", toggled)
+            this.currentState.stateData.interaction.canRespond = toggled;
             this.$socket.emit("host_update_state", {code: this.currentState.code, stateData: this.currentState.stateData});
         },
         generateId(){

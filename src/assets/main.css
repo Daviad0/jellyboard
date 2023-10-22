@@ -241,7 +241,12 @@
 }
 
 .foot img {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
   width: 100%;
+  z-index: 2;
+  background-color: #eadeda;
 }
 
 .logo {
@@ -268,13 +273,12 @@
   animation: shake 1s ease-in-out;
 }
 
-.login a{
+.login a, p{
   position: absolute;
   bottom: 20px;
   color: #eadeda;
   z-index: 3;
   text-align: center;
-  width: 100%;
   font-size: 20px;
 }
 
@@ -338,6 +342,7 @@
   flex-direction: column;
   width: 400px;
   border: 1px solid #000;
+  background-color: #eadeda;
   padding: 40px;
   border-radius: 16px;
   font-family: 'Montserrat Alternates', sans-serif;
@@ -477,25 +482,25 @@
 }
 
 .color-button#red {
-  background-color: red;
+  background-color: #D04343;
 }
 
 .color-button#green {
-  background-color: green;
+  background-color: #337B18;
 }
 
 .color-button#blue {
-  background-color: blue;
+  background-color: #4348D0;
 }
 
-.color-button#yellow {
-  background-color: yellow;
+.color-button#jellycolor {
+  background-color: #ba1c8d;
 }
 .color-button#black {
   background-color: black;
 }
 
-#brush {
+.tools {
   transform: translateY(10px) rotate(-90deg); 
   width:100px; 
   height:100px;
@@ -504,12 +509,12 @@
 }
 
 
-#brush:hover {
+.tools:hover {
   transform: translateY(10px) translateX(-40px) rotate(-90deg);
 }
 
 #drawingarea {
-  background-color: white;
+  background-color: #eadeda;
   
 }
 
@@ -578,4 +583,12 @@
   100%{
     opacity: 1;
   }
+}
+
+.slideselect{
+  background-color: rgb(210, 197, 193);
+  cursor: pointer;
+}
+.slideselect:hover{
+  filter: drop-shadow(0 0 2px rgba(0,0,0,0.2));
 }

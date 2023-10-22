@@ -10,6 +10,7 @@ import VueCookies from 'vue3-cookies'
 
 import Lottie from './components/Lottie.vue'
 import LottieToggle from './components/LottieToggle.vue'
+import LottieButton from './components/LottieButton.vue'
 // import VueSocketIO from 'vue-socket.io';
 
 // export const SocketInstance = socketio('http://localhost:3000');
@@ -25,6 +26,7 @@ app.use(VueCookies)
 
 app.component("Lottie", Lottie);
 app.component("LottieToggle", LottieToggle);
+app.component("LottieButton", LottieButton);
 
 // app.use(new VueSocketIO({
 //     connection: 'http://localhost:3000',

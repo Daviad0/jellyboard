@@ -53,8 +53,17 @@
 
             this.submitAnswer();
         },
+        sockets:{
+            game_your_answer(data){
+                const {answer} = data;
+                if(this.multiple)
+                    this.selected = answer;
+                else
+                    this.selected = [answer];
+            }
+        },
         submitAnswer(){
-            
+
             this.$socket.emit("game_submit_answer", {answer: this.multiple ? this.selected : this.selected[0]});
         }
     }
