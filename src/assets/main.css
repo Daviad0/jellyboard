@@ -195,6 +195,11 @@
   -webkit-mask-repeat: no-repeat;
 }
 
+.fade-in-fast {
+  animation: left-to-right-fade-in 1s ease-in;
+  -webkit-mask-repeat: no-repeat;
+}
+
 @keyframes left-to-right-fade-in {
   0% {
     -webkit-mask-size: 0%;
@@ -366,6 +371,10 @@
   padding: 5px;
 }
 
+#color-picker li {
+  list-style: none;
+}
+
 .color-button {
   position: relative;
   margin: auto;
@@ -408,6 +417,12 @@
   background-color: #ff0000;
 }
 
+#draw {
+  background-color: transparent;
+  outline: none;
+  border: none;
+}
+
 #drawingarea {
   background-color: pink;
   
@@ -438,4 +453,40 @@
 }
 .imagebutton:hover{
   filter: drop-shadow(0 0 0.75rem rgba(0,0,0,0.2));
+}
+.codeview{
+  border: 2px solid #ba1c8d;
+  background-color: transparent;
+  padding: 4px 8px;
+  border-radius: 8px;
+}
+
+@keyframes slantChange{
+  0%{
+    transform: rotate(5deg);
+  }
+  50%{
+    transform: rotate(-3deg);
+  }
+  100%{
+    transform: rotate(5deg);
+  }
+}
+
+.slantChangeAnim{
+  animation: slantChange 4s infinite ease-in-out;
+}
+
+.showAnim{
+  animation: fadeIn 1s ease-in-out;
+  animation-iteration-count: 1;
+}
+
+@keyframes fadeIn {
+  0%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
+  }
 }

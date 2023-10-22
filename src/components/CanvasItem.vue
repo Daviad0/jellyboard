@@ -1,16 +1,17 @@
 <template>
     <div class="center-align">
         <div id="color-picker" class="center-align">
-            <button class="color-button" id="red" @click="setColor('red'); setDrawingMode(true)"></button>
-            <button class="color-button" id="blue" @click="setColor('blue'); setDrawingMode(true)"></button>
-            <button class="color-button" id="green" @click="setColor('green'); setDrawingMode(true)"></button>
-            <button class="color-button" id="yellow" @click="setColor('yellow'); setDrawingMode(true)"></button>
-            <input type="color" id="colorpicker" ref="colorPicker" value="#ff0000">
-            <button class="draw-button" id="draw" @click="setDrawingMode(true)">draw</button>
-            <button class="erase-button" id="erase" @click="setDrawingMode(false)">erase</button>
-            
+            <ul style="list-style:none; padding:0">
+                <li><button class="color-button" id="red" @click="setColor('red'); setDrawingMode(true)"></button></li>
+                <li><button class="color-button" id="blue" @click="setColor('blue'); setDrawingMode(true)"></button></li>
+                <li><button class="color-button" id="green" @click="setColor('green'); setDrawingMode(true)"></button></li>
+                <li><button class="color-button" id="yellow" @click="setColor('yellow'); setDrawingMode(true)"></button></li>
+                <li><input type="color" id="colorpicker" ref="colorPicker" value="#ff0000"></li>
+                <li><button class="erase-button" id="erase" @click="setDrawingMode(false)">erase</button></li>
+            </ul>
         </div>
         <div id ="canvas" class="center-align"></div>
+        <li><button class="draw-button" id="draw" @click="setDrawingMode(true)"><img style="transform: rotate(-90deg); width:100px; height:100px;" src="src/assets/jellybrushbutbad-removebg-preview.png"></button></li>
     </div>
 </template>
 
@@ -68,6 +69,9 @@
             },
             setColor(c) {
                 this.color = c;
+                thisthis.$refs.colorPicker.value = this.color;
+                this.$refs.colorPicker.style.backgroundColor = this.color;
+                this.setDrawingMode(true);
             },
             handleMouse(e) {
                 if (this.drawingMode) {
