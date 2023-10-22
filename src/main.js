@@ -17,8 +17,8 @@ const app = createApp(App)
 
 app.use(new VueSocketIO({
     debug: true,
-    connection: 'https://api.jellyboard.tech',
-    options: { path: "/live" }
+    connection: 'http://api.jellyboard.tech',
+    options: { path: "/live", transports: ['websocket', 'polling', 'flashsocket'] }
 }));
 app.use(VueCookies)
 
