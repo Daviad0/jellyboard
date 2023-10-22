@@ -11,7 +11,7 @@
             </ul>
         </div>
         <div id ="canvas" class="center-align"></div>
-        <li><button class="draw-button" id="draw" @click="setDrawingMode(true)"><img style="transform: rotate(-90deg); width:100px; height:100px;" src="src/assets/jellybrushbutbad-removebg-preview.png"></button></li>
+        <li><button class="draw-button" id="draw" @click="setDrawingMode(true)"><img style="transform: rotate(-90deg); width:100px; height:100px;" src="/src/assets/jellybrushbutbad-removebg-preview.png"></button></li>
     </div>
 </template>
 
