@@ -255,21 +255,21 @@ export default {
         }
     },
     mounted(){
-        var code = this.$cookies.get("host_code");
-        if(code != undefined){
-            this.$socket.emit("host_control_session", {code: code});
+        // var code = this.$cookies.get("host_code");
+        // if(code != undefined){
+        //     this.$socket.emit("host_control_session", {code: code});
             
-        }
-        else
-            this.$socket.emit("host_create_session");
+        // }
+        // else
+        //     this.$socket.emit("host_create_session");
         
         
-        setInterval(function(){
-            if(this.answerConcurrency > 0){
-                this.answerConcurrency = 0;
-                this.summarizeAnswers();
-            }
-        }, 2000);
+        // setInterval(function(){
+        //     if(this.answerConcurrency > 0){
+        //         this.answerConcurrency = 0;
+        //         this.summarizeAnswers();
+        //     }
+        // }, 2000);
 
     },
     methods:{
