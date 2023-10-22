@@ -19,7 +19,7 @@ const app = createApp(App)
 
 app.use(new VueSocketIO({
     debug: true,
-    connection: 'http://localhost:3000',
+    connection: 'https://api.jellyboard.tech',
     options: { path: "/live" }
 }));
 app.use(VueCookies)
