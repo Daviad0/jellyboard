@@ -5,10 +5,7 @@ import CreatorItem from '../components/CreatorItem.vue'
     
     <div class="creatorView center-align">
         <div v-if="currentView == 'create'" class="showAnim">
-            <!--
-
-                THIS IS CREATION INITIAL VIEW
-            -->
+            
             <div style="position: absolute;left:10px;top:200px;" v-if="this.currentState.players != undefined">
                 <div class="jellybg showAnim" style="width:250px;padding:10px;border-radius: 16px;">
                     <h2 class="white center-align" style="margin:4px;margin-bottom: 10px;">Who's In?</h2>
@@ -25,13 +22,7 @@ import CreatorItem from '../components/CreatorItem.vue'
                     
                 </div>
             </div>
-            <!-- <div style="position: absolute;right:20px;bottom:20px;">
-                <div class="jellybg showAnim center-align" style="width:160px;height:60px;padding:10px;border-radius: 16px;">
-                    
-                   <h1 class="white">GO</h1>
-                    
-                </div>
-            </div> -->
+            
             <div class="center-align">
                 <div>
                     <div class="center-align">
@@ -74,11 +65,11 @@ import CreatorItem from '../components/CreatorItem.vue'
             </div>
 
 
-            <div class = "multi-select showAnim" v-if="this.currentState.stateData.currentSlide.type == 'multiple_select'">
+            <!-- <div class = "multi-select showAnim" v-if="this.currentState.stateData.currentSlide.type == 'multiple_select'">
 
                 <div class = "multi-option" v-for="(item, index) in Object.keys(this.useAnswerData).sort((a,b) => this.useAnswerData[b] - this.useAnswerData[a])"><h3 class="white jellybg">{{ item }}</h3>   <h2>{{ this.useAnswerData[item] }}%</h2></div>
                 
-            </div>
+            </div> -->
 
 
 
@@ -255,21 +246,21 @@ export default {
         }
     },
     mounted(){
-        // var code = this.$cookies.get("host_code");
-        // if(code != undefined){
-        //     this.$socket.emit("host_control_session", {code: code});
+        var code = this.$cookies.get("host_code");
+        if(code != undefined){
+            this.$socket.emit("host_control_session", {code: code});
             
-        // }
-        // else
-        //     this.$socket.emit("host_create_session");
+        }
+        else
+            this.$socket.emit("host_create_session");
         
         
-        // setInterval(function(){
-        //     if(this.answerConcurrency > 0){
-        //         this.answerConcurrency = 0;
-        //         this.summarizeAnswers();
-        //     }
-        // }, 2000);
+        setInterval(function(){
+            if(this.answerConcurrency > 0){
+                this.answerConcurrency = 0;
+                this.summarizeAnswers();
+            }
+        }, 2000);
 
     },
     methods:{
@@ -341,7 +332,7 @@ export default {
         selectSlide(id){
 
             this.currentState.stateData.currentSlide.answers = this.currentState.stateData.answers; 
-            this.items[this.items.indexOf(this.items.find((item) => item.id == this.currentState.stateData.currentSlide.id))] = this.currentState.stateData.currentSlide;
+            //this.items[this.items.indexOf(this.items.find((item) => item.id == this.currentState.stateData.currentSlide.id))] = this.currentState.stateData.currentSlide;
 
             this.currentState.stateData.currentSlide = this.items.find((item) => item.id == id);
             this.currentState.stateData.answers = this.currentState.stateData.currentSlide.answers;
@@ -362,12 +353,12 @@ export default {
             
             var style = "background: repeating-conic-gradient(from 0deg,";
             var prevDegree = 0;
-            Object.keys(this.useAnswerData).forEach((key, index) => {
-                var color = this.colors[index];
-                var percent = this.useAnswerData[key];
-                style += `${color} calc(3.6deg * ${prevDegree}) calc(3.6deg * ${percent+prevDegree}),`;
-                prevDegree += percent;
-            })
+            // Object.keys(this.useAnswerData).forEach((key, index) => {
+            //     var color = this.colors[index];
+            //     var percent = this.useAnswerData[key];
+            //     style += `${color} calc(3.6deg * ${prevDegree}) calc(3.6deg * ${percent+prevDegree}),`;
+            //     prevDegree += percent;
+            // })
             style = style.substring(0, style.length - 1);
             style += ");";
             console.log(style);
@@ -376,30 +367,30 @@ export default {
         summarizeAnswers(){
             var answers = this.currentState.stateData.answers;
             var summary = {};
-            Object.keys(answers).forEach((key) => {
-                var answer = answers[key];
-                if(this.currentState.stateData.currentSlide.type == "multiple_choice"){
-                    if(summary[answer] == undefined){
-                        summary[answer] = 1;
-                    }else{
-                        summary[answer]++;
-                    }
-                }else if(this.currentState.stateData.currentSlide.type == "multiple_select"){
-                    answer.forEach((choice) => {
-                        if(summary[choice] == undefined){
-                            summary[choice] = 1;
-                        }else{
-                            summary[choice]++;
-                        }
-                    })
-                }else if(this.currentState.stateData.currentSlide.type == "short_answer" || this.currentState.stateData.currentSlide.type == "drawing"){
-                    if(answer != ""){
-                        summary[key] = answer;
-                    }else{
-                        summary[key] = undefined;
-                    }
-                }
-            })
+            // Object.keys(answers).forEach((key) => {
+            //     var answer = answers[key];
+            //     if(this.currentState.stateData.currentSlide.type == "multiple_choice"){
+            //         if(summary[answer] == undefined){
+            //             summary[answer] = 1;
+            //         }else{
+            //             summary[answer]++;
+            //         }
+            //     }else if(this.currentState.stateData.currentSlide.type == "multiple_select"){
+            //         answer.forEach((choice) => {
+            //             if(summary[choice] == undefined){
+            //                 summary[choice] = 1;
+            //             }else{
+            //                 summary[choice]++;
+            //             }
+            //         })
+            //     }else if(this.currentState.stateData.currentSlide.type == "short_answer" || this.currentState.stateData.currentSlide.type == "drawing"){
+            //         if(answer != ""){
+            //             summary[key] = answer;
+            //         }else{
+            //             summary[key] = undefined;
+            //         }
+            //     }
+            // })
             
             
             if(this.currentState.stateData.currentSlide.type == 'multiple_choice'){
@@ -407,12 +398,12 @@ export default {
 
                 }
                 var allAnswers = Object.keys(answers).length;
-                this.currentState.stateData.currentSlide.additionalData.choices.forEach((choice, index) => {
-                    this.useAnswerData[choice] = summary[index+1] == undefined ? 0 : summary[index+1];
-                    if(allAnswers > 0){
-                        this.useAnswerData[choice] = Math.round((this.useAnswerData[choice] / allAnswers) * 100);
-                    }
-                });
+                // this.currentState.stateData.currentSlide.additionalData.choices.forEach((choice, index) => {
+                //     this.useAnswerData[choice] = summary[index+1] == undefined ? 0 : summary[index+1];
+                //     if(allAnswers > 0){
+                //         this.useAnswerData[choice] = Math.round((this.useAnswerData[choice] / allAnswers) * 100);
+                //     }
+                // });
             }else if(this.currentState.stateData.currentSlide.type == 'multiple_select'){
                 this.useAnswerData = {
 
@@ -426,43 +417,43 @@ export default {
                 });
             }else if(this.currentState.stateData.currentSlide.type == 'short_answer' || this.currentState.stateData.currentSlide.type == 'drawing'){
                 var previousRandom = this.useAnswerData;
-                Object.keys(summary).forEach((key) => {
-                    if(summary[key] == undefined){
-                        return;
-                    }
-                    if(previousRandom[key] == undefined){
-                        var tries = 50;
-                        while(tries > 0){
-                            this.useAnswerData[key] = {
-                                answer: summary[key],
-                                x: Math.random() * 80+10,
-                                y: Math.random() * 60+10,
-                                size: Math.floor(Math.random() * 20 + 10)
-                            }
+                // Object.keys(summary).forEach((key) => {
+                //     if(summary[key] == undefined){
+                //         return;
+                //     }
+                //     if(previousRandom[key] == undefined){
+                //         var tries = 50;
+                //         while(tries > 0){
+                //             this.useAnswerData[key] = {
+                //                 answer: summary[key],
+                //                 x: Math.random() * 80+10,
+                //                 y: Math.random() * 60+10,
+                //                 size: Math.floor(Math.random() * 20 + 10)
+                //             }
 
-                            // check if it's too close to another answer
-                            var tooClose = false;
-                            Object.keys(previousRandom).forEach((key2) => {
-                                if(previousRandom[key2] == undefined){
-                                    return;
-                                }
-                                var xDiff = Math.abs(this.useAnswerData[key].x - previousRandom[key2].x);
-                                var yDiff = Math.abs(this.useAnswerData[key].y - previousRandom[key2].y);
-                                if(xDiff < 5 && yDiff < 5){
-                                    tooClose = true;
-                                }
-                            })
-                            if(!tooClose){
-                                break;
-                            }
-                            tries--;
-                        }
+                //             // check if it's too close to another answer
+                //             var tooClose = false;
+                //             Object.keys(previousRandom).forEach((key2) => {
+                //                 if(previousRandom[key2] == undefined){
+                //                     return;
+                //                 }
+                //                 var xDiff = Math.abs(this.useAnswerData[key].x - previousRandom[key2].x);
+                //                 var yDiff = Math.abs(this.useAnswerData[key].y - previousRandom[key2].y);
+                //                 if(xDiff < 5 && yDiff < 5){
+                //                     tooClose = true;
+                //                 }
+                //             })
+                //             if(!tooClose){
+                //                 break;
+                //             }
+                //             tries--;
+                //         }
                         
-                    }else{
-                        this.useAnswerData[key] = previousRandom[key];
-                        this.useAnswerData[key].answer = summary[key];
-                    }
-                })
+                //     }else{
+                //         this.useAnswerData[key] = previousRandom[key];
+                //         this.useAnswerData[key].answer = summary[key];
+                //     }
+                // })
             }
 
             console.log(this.useAnswerData);
