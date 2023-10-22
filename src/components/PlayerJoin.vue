@@ -17,7 +17,6 @@
                 <img src = "/src/assets/jellyfooter.png">
             </div>
             <div class = "login">
-                <a href = ""><p>Login or sign up here!</p></a>
             </div>
         </div>
 
@@ -63,6 +62,7 @@ export default {
             if(data.valid){
                 this.code = data.code;
                 this.error = undefined;
+                this.$refs.username.focus();
             }else{
                 this.code = undefined;
                 this.error = "Code is invalid!"
@@ -85,7 +85,7 @@ export default {
             }
         },
         home_active_sessions(data){
-            alert("ThERE ARE " + data + " ACTIVE SESSIONS")
+            alert("THERE ARE " + data + " ACTIVE SESSIONS")
             console.log(data);
         }
     }

@@ -9,12 +9,20 @@
         name: "LottieToggle",
         props: {
             src: String,
-            loop: Boolean
+            loop: Boolean,
+            begin: Boolean
         },
         data(){
             return {
                 toggled: false
             }
+        },
+        mounted(){
+            this.toggled = this.$props.begin == undefined ? false : this.$props.begin;
+            setTimeout(() => {
+                this.$refs.lottie.setDirection(this.toggled ? 1 : -1);
+                this.$refs.lottie.play();
+            }, 100)
         },
         methods: {
             toggle(){

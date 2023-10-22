@@ -1,6 +1,7 @@
 <script setup>
     import MultipleChoiceItem from './MultipleChoiceItem.vue';
     import SubmitAnswerItem from './SubmitAnswerItem.vue';
+    import CanvasItem from './CanvasItem.vue';
 </script>
 <template>
     <div class="playerPlay">
@@ -17,10 +18,29 @@
                 <Lottie :src="'/src/assets/jellyloading.json'" :loop="true" style="width:200px;opacity: 0.7;"/>
             </div>
             <div v-if="currentState.started">
-                <div class="center-align">
-                    <MultipleChoiceItem :choices="3"/>
-                    
+                <div v-if="currentState.interaction.type == 'submission'">
+                    <h2 class="jelly center-align">{{ currentState.currentSlide.title }}</h2>
+                    <div class="center-align showAnim" v-if="currentState.currentSlide.type == 'multiple_choice'">
+                        <MultipleChoiceItem :choices="currentState.currentSlide.additionalData.choices"/>
+                        
+                    </div>
+                    <div class="center-align showAnim" v-if="currentState.currentSlide.type == 'multiple_select'">
+                        <MultipleChoiceItem :choices="currentState.currentSlide.additionalData.choices" :multiple="true"/>
+                        
+                    </div>
+                    <div class="center-align showAnim" v-if="currentState.currentSlide.type == 'short_answer'">
+                        <SubmitAnswerItem />
+                        
+                    </div>
+                    <div class="center-align showAnim" v-if="currentState.currentSlide.type == 'drawing'">
+                        <CanvasItem />
+                        
+                    </div>
+                    <div class="center-align" style="width: 100%;margin-top: 20px;">
+                        <button class="button jellybg white" :disabled="currentState.interaction.canRespond == false">Submit</button>
+                    </div>
                 </div>
+                
             </div>
             
             
@@ -49,11 +69,14 @@
         sockets: {
             game_update_state(data){
                 this.currentState = data.stateData;
-                this.stateKey++;
+                //this.stateKey++;
             }
         },
         mounted(){
             this.$socket.emit("game_ping");
+        },
+        methods: {
+            
         }
     }
 </script>

@@ -315,13 +315,16 @@
 .pie-key strong{
   display: block;
   margin-bottom: 15px;
+  border-radius: 8px;
+  padding:4px 8px;
 }
 
 
-.multi-option h4{
+.multi-option h3{
   border: 3px solid #ba1c8d;
   margin-right: 20px;
-  padding: 5px;
+  padding: 6px 10px;
+  border-radius: 8px;
 }
 
 .multi-option {
@@ -411,12 +414,44 @@
   overflow-y: hidden;
 }
 
+.submission-box {
+  border: 2px solid #ba1c8d;
+  border-radius: 15px;
+  max-width: 300px;
+  padding:6px 10px;
+  word-wrap: break-word;
+}
+
+.submission-box-count {
+  border: 2px solid #ba1c8d;
+  border-radius: 15px;
+  padding: 10px;
+  max-width: 300px;
+  padding-bottom: 25px;
+  display: none;
+}
+
+.submission-box-count h3 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.submission-box-count p {
+  color: white;
+  margin: 0;
+  font-size: 14px;
+  font-weight: bold;
+  background-color: #ba1c8d;
+  border-radius: 0 0 15px 0;
+  padding: 5px;
+}
+
 
 /* balls*/
 #color-picker {
   margin: 10px;
-  height: 50%;
-  width: 80px;
+  height: 335px;
+  width: 70px;
   right: 0;
   position: absolute;
   z-index: 2;
@@ -434,10 +469,11 @@
   margin: auto;
   height: 50%;
   bottom: 0;
-  width: 50%;
+  width: 60%;
   height: 40px;
   border: none;
   border-radius: 50px;
+  transform: translateX(30%);
 }
 
 .color-button#red {
@@ -455,30 +491,25 @@
 .color-button#yellow {
   background-color: yellow;
 }
-
-
-#colorpicker {
-  position: relative;
-  margin: auto;
-  height: 50%;
-  bottom: 0;
-  width: 50%;
-  height: 40px;
-  border: none;
-  outline: none;
-  border-radius: 50px;
-  border-color: transparent;
-  background-color: #ff0000;
+.color-button#black {
+  background-color: black;
 }
 
-#draw {
-  background-color: transparent;
-  outline: none;
-  border: none;
+#brush {
+  transform: translateY(10px) rotate(-90deg); 
+  width:100px; 
+  height:100px;
+  position:relative;
+  transition: all 0.2s ease-in-out;
+}
+
+
+#brush:hover {
+  transform: translateY(10px) translateX(-40px) rotate(-90deg);
 }
 
 #drawingarea {
-  background-color: pink;
+  background-color: white;
   
 }
 
@@ -495,6 +526,10 @@
   border-radius: 32px;
   padding: 6px 12px;
   cursor: pointer;
+}
+.button:disabled{
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 .imagebutton{
   cursor: pointer;

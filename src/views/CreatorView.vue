@@ -4,7 +4,7 @@ import CreatorItem from '../components/CreatorItem.vue'
 <template>
     
     <div class="creatorView center-align">
-        <div v-if="currentView == 'create'">
+        <div v-if="currentView == 'create'" class="showAnim">
             <!--
 
                 THIS IS CREATION INITIAL VIEW
@@ -16,6 +16,9 @@ import CreatorItem from '../components/CreatorItem.vue'
                         <div v-for="player in this.currentState.players" class="whitebg apart-align" style="margin:4px;padding:4px 6px;border-radius: 8px;width:100px">
                             <h5 class="jelly" style="margin:0px;text-wrap:nowrap;text-overflow: ellipsis;">{{ player.username }}</h5>
                             <h4 class="jelly" style="margin:0px">x</h4>
+                        </div>
+                        <div v-if="this.currentState.players.length == 0">
+                            <h4 class="white" style="margin:0px;margin-bottom: 10px;"><i>Nobody</i></h4>
                         </div>
                     </div>
                    
@@ -32,7 +35,7 @@ import CreatorItem from '../components/CreatorItem.vue'
             <div class="center-align">
                 <div>
                     <div class="center-align">
-                        <h1 class = "fade-in">Create a JellyBoard</h1>
+                        <h1 class = "fade-in" @click="currentView = 'live'">Create a JellyBoard</h1>
                     </div>
                     
                     <CreatorItem :code="this.currentState.code"/>
@@ -40,33 +43,54 @@ import CreatorItem from '../components/CreatorItem.vue'
                 
             </div>
         </div>
-        <div v-if="currentView == 'live'">
+        <div v-if="currentView == 'live'" class="showAnim">
             <div style = "position: absolute; width: 80%; top: 0; left: 0; height: 100px; background-color: #ba1c8d; border-radius: 0 0 40px 0px; display: flex; align-items: center;">
-                <h1 style = "padding-left: 20px; color: #eadeda;" class = fade-in-fast>What is the capital of the moon?</h1>
+                <h1 style = "padding-left: 20px; color: #eadeda;" class = fade-in-fast>{{ currentState.stateData.started ? currentState.stateData.currentSlide.title : "Moon?" }}</h1>
             </div>
-            <div style = "position: absolute; width: 10%; top: 100px; left: 65%;height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 0 0px 20px 20px; background-color: rgb(210, 197, 193);">
-                <h2 @click="currentView = 'create'">Voting</h2>
+            <div style = "position: absolute; top: 100px; left: 60%;height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 0 0px 20px 20px; background-color: rgb(210, 197, 193);padding:0px 20px">
+                <h2 @click="currentView = 'create'">{{ currentState.stateData.started ? currentState.stateData.interaction.type : "Submission" }}</h2>
             </div>
             
 
+            <div v-if="this.currentState.stateData.currentSlide.type == 'short_answer'" :key="summarizedAnswers">
+                <div v-for="(item, index) in Object.keys(this.useAnswerData)" style="position: absolute;" :style="`top:${this.useAnswerData[item].y}%;left:${this.useAnswerData[item].x}%;z-index:20`">
+                    <div class = submission-box>
+                        <h3 style="margin:0px" :style="`font-size:${this.useAnswerData[item].size}px`">{{ this.useAnswerData[item].answer }}</h3>
+                    </div>
+                </div>
+            </div>
 
-            <div class = multi-select style = "display: none;">
-                <div class = multi-option><h4>Option 1</h4>   <p>95%</p></div>
-                <div class = multi-option><h4>Option 2</h4>   <p>5%</p></div>
-                <div class = multi-option><h4>Option 3</h4>   <p>49%</p></div>
+            <div v-if="this.currentState.stateData.currentSlide.type == 'drawing'" :key="summarizedAnswers">
+                <div v-for="(item, index) in Object.keys(this.useAnswerData)" style="position: absolute;" :style="`top:${this.useAnswerData[item].y}%;left:${this.useAnswerData[item].x}%;z-index:20`">
+                    <img :src="this.useAnswerData[item].answer" style="width:80px"/>
+                </div>
+            </div>
+
+            
+
+
+            <div class = submission-box-count style = "position: relative;">
+                <h3>3.14</h3>   <div style = "position: absolute; right: 0px;"><p>7</p></div>
+            </div>
+
+
+            <div class = "multi-select showAnim" v-if="this.currentState.stateData.currentSlide.type == 'multiple_select'">
+
+                <div class = "multi-option" v-for="(item, index) in Object.keys(this.useAnswerData).sort((a,b) => this.useAnswerData[b] - this.useAnswerData[a])"><h3 class="white jellybg">{{ item }}</h3>   <h2>{{ this.useAnswerData[item] }}%</h2></div>
+                
             </div>
 
 
 
-            <div class = pie style = "position: relative; width: 500px; height: 500px; display: none;">
-                <div class = pie-chart>
+            <div v-if="this.currentState.stateData.currentSlide.type == 'multiple_choice'"  class = "pie showAnim" style = "position: relative; width: 500px; height: 500px;">
+                <div class = "pie-chart transition" :style="getPieChartStyleData()" :key="summarizedAnswers">
                     <div class = pie-hole></div>
                 </div>
 
-                <div class = pie-key style = "position: absolute; top: 200px; left: 215px; z-index: 4;">
-                <Strong style = "background-color:#ff264a; color: black;">Option 1</Strong>
-                <Strong style = "background-color:#cfc01a; color: black;">Option 2</Strong>
-                <Strong style = "background-color:#12CBC4; color: black;">Option 3</Strong>
+                <div class = pie-key style = "position: absolute; top: 50%; left: 50%; z-index: 4;transform: translate(-50%, -50%);">
+
+                <Strong :style="`background-color:${this.colors[index]}`" style = " color: black;" v-for="(item, index) in Object.keys(this.useAnswerData)">{{ item }}</Strong>
+                
 
                 </div>
 
@@ -81,19 +105,21 @@ import CreatorItem from '../components/CreatorItem.vue'
             <div style = "position: absolute; bottom: 0px; left: 0px; background-color: rgb(210, 197, 193); width: 55%; height: 70px; border-radius: 0 20px 0 0; display: flex; align-items: center;">
                 <img style = "height: 50px;" src = "/src/assets/jellyleft.png">
                 <img style = "height: 50px;" src = "/src/assets/jellyright.png">
-                <select style = "margin-left: 20px; font-size: 16px;">
-                    <option>Voting</option>
-                    <option>Submission</option>
-                    <option>Rating</option>
-                </select>
+                <div>
+                    <select id="dropdown" class="jellybg" style = "margin-left: 20px; font-size: 16px;">
+                        <option>Voting</option>
+                        <option>Submission</option>
+                        <option>Rating</option>
+                    </select>
+                </div>
                 <div style = "margin-left: 30px; margin-right: 30px;">
                 <p style = "padding: 0; margin: 0;">Enable Answering</p>
-                <LottieToggle :src="'/src/assets/jellymode_toggle_switch.json'" style="width: 80px; height: 40px; margin: auto;"/>
+                <LottieToggle @click="changeEnableToggle($event.srcElement)" :begin="this.currentState.stateData.interaction.canRespond" :src="'/src/assets/jellymode_toggle_switch.json'" style="width: 80px; height: 40px; margin: auto;"/>
                 </div>
                 <img style = "height: 50px; margin-right: 30px;" src = "/src/assets/jellycamera.png">
                 <img style = "height: 50px; margin-right: 50px;" src = "/src/assets/jellysettings.png">
                 <img style = "height: 50px; margin-right: 10px;" src = "/src/assets/jellyperson.png">
-                <p style = "font-size: 20px;">29</p>
+                <p style = "font-size: 20px;">{{ this.currentState.stateData.started ? this.currentState.players.length : 0 }}</p>
             
             </div>
         </div>
@@ -129,20 +155,31 @@ export default {
     data(){
         return {
             items: [],
+            colors: ["#ff264a", "#feec1e", "#12CBC4", "#9980FA", "#ff9f1a", "#ff3838"],
             typesOfItems: ["Multiple Choice", "Short Answer", "Multiple Select", "Drawing"],
-            currentView: "live",
+            currentView: "",
             currentState: {
+                players: [],
                 stateData: {
                     started: false,
-                    currentSlide: undefined
+                    currentSlide: undefined,
+                    interaction:{
+                        canRespond: false,
+                        type: undefined,
+                    },
+                    answers: {}
                 }
-            }
+            },
+            useAnswerData: {},
+            answerConcurrency: 0,
+            summarizedAnswers: 0
         }
     },
     sockets: {
         host_create_session(data){
             const {code} = data;
             this.$cookies.set("host_code", code);
+            this.currentView = 'create';
             this.currentState.code = code;
         },
         host_control_session(data){
@@ -152,6 +189,11 @@ export default {
                 this.$cookies.set("host_code", code);
                 this.currentState.players = players;
                 this.currentState.code = code;
+                this.currentState.stateData = stateData;
+                if(stateData.started){
+                    this.currentView = 'live';
+                }
+                this.summarizeAnswers();
             }
             else{
                 this.$cookies.remove("host_code");
@@ -172,10 +214,22 @@ export default {
 
                 this.currentState.stateData.started = true;
                 this.currentState.stateData.currentSlide = slide;
+                this.currentState.stateData.answers = {};
+                this.currentState.stateData.interaction.canRespond = true;
+                this.currentState.stateData.interaction.type = "submission";
 
                 this.$socket.emit("host_update_state", {code: this.currentState.code, stateData: this.currentState.stateData});
                 
             }
+
+            
+
+        },
+        host_update_answers(data){
+            const {answers} = data;
+            this.currentState.stateData.answers = answers;
+            this.answerConcurrency++;
+            
         }
     },
     mounted(){
@@ -188,6 +242,12 @@ export default {
             this.$socket.emit("host_create_session");
         
         
+        setInterval(() => {
+            if(this.answerConcurrency > 0){
+                this.answerConcurrency = 0;
+                this.summarizeAnswers();
+            }
+        }, 2000);
 
     },
     methods:{
@@ -206,6 +266,122 @@ export default {
                 title: "",
                 data: {}
             })
+        },
+        getPieChartStyleData(){
+            
+            
+            var style = "background: repeating-conic-gradient(from 0deg,";
+            var prevDegree = 0;
+            Object.keys(this.useAnswerData).forEach((key, index) => {
+                var color = this.colors[index];
+                var percent = this.useAnswerData[key];
+                style += `${color} calc(3.6deg * ${prevDegree}) calc(3.6deg * ${percent+prevDegree}),`;
+                prevDegree += percent;
+            })
+            style = style.substring(0, style.length - 1);
+            style += ");";
+            console.log(style);
+            return style;
+        },
+        summarizeAnswers(){
+            var answers = this.currentState.stateData.answers;
+            var summary = {};
+            Object.keys(answers).forEach((key) => {
+                var answer = answers[key];
+                if(this.currentState.stateData.currentSlide.type == "multiple_choice"){
+                    if(summary[answer] == undefined){
+                        summary[answer] = 1;
+                    }else{
+                        summary[answer]++;
+                    }
+                }else if(this.currentState.stateData.currentSlide.type == "multiple_select"){
+                    answer.forEach((choice) => {
+                        if(summary[choice] == undefined){
+                            summary[choice] = 1;
+                        }else{
+                            summary[choice]++;
+                        }
+                    })
+                }else if(this.currentState.stateData.currentSlide.type == "short_answer" || this.currentState.stateData.currentSlide.type == "drawing"){
+                    if(answer != ""){
+                        summary[key] = answer;
+                    }else{
+                        summary[key] = undefined;
+                    }
+                }
+            })
+            
+            
+            if(this.currentState.stateData.currentSlide.type == 'multiple_choice'){
+                this.useAnswerData = {
+
+                }
+                var allAnswers = Object.keys(answers).length;
+                this.currentState.stateData.currentSlide.additionalData.choices.forEach((choice, index) => {
+                    this.useAnswerData[choice] = summary[index+1] == undefined ? 0 : summary[index+1];
+                    if(allAnswers > 0){
+                        this.useAnswerData[choice] = Math.round((this.useAnswerData[choice] / allAnswers) * 100);
+                    }
+                });
+            }else if(this.currentState.stateData.currentSlide.type == 'multiple_select'){
+                this.useAnswerData = {
+
+                }
+                var allAnswers = Object.keys(answers).length;
+                this.currentState.stateData.currentSlide.additionalData.choices.forEach((choice, index) => {
+                    this.useAnswerData[choice] = summary[index+1] == undefined ? 0 : summary[index+1];
+                    if(allAnswers > 0){
+                        this.useAnswerData[choice] = Math.round((this.useAnswerData[choice] / allAnswers) * 100);
+                    }
+                });
+            }else if(this.currentState.stateData.currentSlide.type == 'short_answer' || this.currentState.stateData.currentSlide.type == 'drawing'){
+                var previousRandom = this.useAnswerData;
+                Object.keys(summary).forEach((key) => {
+                    if(summary[key] == undefined){
+                        return;
+                    }
+                    if(previousRandom[key] == undefined){
+                        var tries = 50;
+                        while(tries > 0){
+                            this.useAnswerData[key] = {
+                                answer: summary[key],
+                                x: Math.random() * 80+10,
+                                y: Math.random() * 60+10,
+                                size: Math.floor(Math.random() * 20 + 10)
+                            }
+
+                            // check if it's too close to another answer
+                            var tooClose = false;
+                            Object.keys(previousRandom).forEach((key2) => {
+                                if(previousRandom[key2] == undefined){
+                                    return;
+                                }
+                                var xDiff = Math.abs(this.useAnswerData[key].x - previousRandom[key2].x);
+                                var yDiff = Math.abs(this.useAnswerData[key].y - previousRandom[key2].y);
+                                if(xDiff < 5 && yDiff < 5){
+                                    tooClose = true;
+                                }
+                            })
+                            if(!tooClose){
+                                break;
+                            }
+                            tries--;
+                        }
+                        
+                    }else{
+                        this.useAnswerData[key] = previousRandom[key];
+                        this.useAnswerData[key].answer = summary[key];
+                    }
+                })
+            }
+
+            console.log(this.useAnswerData);
+            this.summarizedAnswers += 1;
+        
+        },
+        changeEnableToggle(toggler){
+            this.currentState.stateData.interaction.canRespond = toggler.toggled;
+            this.$socket.emit("host_update_state", {code: this.currentState.code, stateData: this.currentState.stateData});
         },
         generateId(){
             // generate a random id

@@ -1,18 +1,27 @@
 <template>
+  <div>
     <div class="center-align">
-        <div id="color-picker" class="center-align">
+        <div id="color-picker" class="center-align" style="list-style:none; padding:0;">
             <ul style="list-style:none; padding:0">
                 <li><button class="color-button" id="red" @click="setColor('red'); setDrawingMode(true)"></button></li>
                 <li><button class="color-button" id="blue" @click="setColor('blue'); setDrawingMode(true)"></button></li>
                 <li><button class="color-button" id="green" @click="setColor('green'); setDrawingMode(true)"></button></li>
                 <li><button class="color-button" id="yellow" @click="setColor('yellow'); setDrawingMode(true)"></button></li>
-                <li><input type="color" id="colorpicker" ref="colorPicker" value="#ff0000"></li>
-                <li><button class="erase-button" id="erase" @click="setDrawingMode(false)">erase</button></li>
+                <li><button class="color-button" id="black" @click="setColor('black'); setDrawingMode(true)"></button></li>
+                <li><input class="color-button" type="color" id="colorpicker" ref="colorPicker" value="#ff0000"></li>
+                <li><button class="erase-button color-button" id="erase" @click="setDrawingMode(false)">erase</button></li>
+                <li><img style="object-fit:cover; width: 60px" id="brush" src="/src/assets/jellybrushh.png"></li>
             </ul>
         </div>
-        <div id ="canvas" class="center-align"></div>
-        <li><button class="draw-button" id="draw" @click="setDrawingMode(true)"><img style="transform: rotate(-90deg); width:100px; height:100px;" src="/src/assets/jellybrushbutbad-removebg-preview.png"></button></li>
+        <div style="background-color: white;padding:5px;border-radius: 16px;border: 4px solid #ba1c8d;">
+          <div id ="canvas" class="center-align" style="border-radius: 16px;"></div>
+        </div>
+        
+        
     </div>
+  
+  </div>
+    
 </template>
 
 
@@ -37,7 +46,7 @@
                 // get canvas 2D context and set the correct size
                 this.ctx = this.canvas.getContext('2d');
                 this.resize();
-        
+
                 window.addEventListener('resize', this.resize);
                 document.addEventListener('mousemove', this.handleMouse);
                 document.addEventListener('mousedown', this.setPosition);
@@ -51,11 +60,13 @@
             },
       methods: {
 
-            watchColorPicker() {
+          watchColorPicker() {
+                const image = document.getElementById('brush');
                 this.$refs.colorPicker.addEventListener("input", () => {
                     this.color = this.$refs.colorPicker.value;
                     this.$refs.colorPicker.style.backgroundColor = this.color;
                     this.setDrawingMode(true);
+                    image.style.backgroundColor = this.color;
                 });
             },
             setPosition(e) {
@@ -64,14 +75,15 @@
                 this.pos.y = e.clientY - rect.top;
             },
             resize() {
-                this.ctx.canvas.width = window.innerWidth;
-                this.ctx.canvas.height = window.innerHeight;
+                this.ctx.canvas.width = 400;
+                this.ctx.canvas.height = 400;
             },
             setColor(c) {
                 this.color = c;
-                thisthis.$refs.colorPicker.value = this.color;
+                this.$refs.colorPicker.value = this.color;
                 this.$refs.colorPicker.style.backgroundColor = this.color;
                 this.setDrawingMode(true);
+                document.getElementById('brush').style.backgroundColor = this.color;
             },
             handleMouse(e) {
                 if (this.drawingMode) {
@@ -84,7 +96,7 @@
                 if (e.buttons !== 1) return;
 
                 this.ctx.beginPath();
-                this.ctx.lineWidth = 5;
+                this.ctx.lineWidth = erase ? 50 : 3;
                 this.ctx.lineCap = 'round';
                 if (erase) {
                     this.ctx.strokeStyle = "white";
@@ -95,6 +107,8 @@
                 this.setPosition(e);
                 this.ctx.lineTo(this.pos.x, this.pos.y);
                 this.ctx.stroke();
+                
+                this.submitAnswer();
             },
             toggleMode(e) {
                 if (e.key === '1') {
@@ -106,6 +120,11 @@
             setDrawingMode(mode) {
                 this.drawingMode = mode;
             },
+            submitAnswer(){
+              var dataURL = this.canvas.toDataURL("image/jpeg", 0.1);
+              this.$socket.emit("game_submit_answer", {answer: dataURL});
+
+            }
         },
     };
 </script>
